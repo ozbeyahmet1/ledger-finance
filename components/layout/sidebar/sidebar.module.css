@@ -1,0 +1,127 @@
+.sidebar{
+    width:20%;
+    position: fixed;
+    height: 100%;
+    min-height: 100vh;
+    padding: 40px;
+    box-shadow: var(--boxShadow);
+}
+
+.black{
+    background-color: var(--grey);
+}
+
+.purple{
+    background-color:var(--purple);
+}
+
+.sidebar__logo{
+    cursor: pointer;
+}
+
+.sidebar__elementWrapper{
+    margin-top: 60px;
+}
+
+.sidebar__element{
+    display: flex;
+    align-items: center;
+    height: 60px;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    cursor: pointer;
+}
+
+
+.sidebar__element h2{
+    font-size: 20px;
+    font-weight: 400;
+    color: white;
+    margin-left: 15px;
+    padding: 10px;  
+}
+
+.sidebar__element svg{
+    font-size: 30px;
+}
+
+.sidebar__element--active svg {
+    font-size: 30px;
+}
+
+.sidebar__element--active{
+    display: flex;
+    align-items: center;
+    height: 60px;
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    background: linear-gradient(93.33deg, #418797 0%, #75298F 100%);
+    box-shadow: var(--boxShadow);
+}
+
+.sidebar__element--active svg {
+    font-size: 30px;
+    background-size: 100%;
+}
+
+.sidebar__element--active h2{
+    font-size: 20px;
+    font-weight: 400;
+    color: white;
+    margin-left: 15px;
+    padding: 10px;  
+}
+
+.sidebar__bottomBar{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 280px;
+}
+
+.sidebar__logout{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    height: 40px;
+    justify-content: space-between;
+}
+
+.sidebar__logout h2 {
+    font-size: 16px;
+    height: 100%;
+    background-color: rgb(255, 255, 255);
+    border-radius: 5px;
+    color: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 5px  ;
+}
+
+.sidebar__logoutButton{
+    background-color: grey;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 40px;
+    border-radius: 5px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

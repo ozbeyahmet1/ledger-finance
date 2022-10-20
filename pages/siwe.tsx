@@ -1,4 +1,5 @@
-import { ConnectButton } from "@rainbow-me/rainbowkit"
+// import { ConnectButton } from "@rainbow-me/rainbowkit"
+import ConnectButton from "../components/connectButton"
 import { getCsrfToken, signIn } from "next-auth/react"
 import { SiweMessage } from "siwe"
 import { useAccount, useNetwork, useSignMessage } from "wagmi"

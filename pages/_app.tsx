@@ -5,9 +5,10 @@ import { publicProvider } from "wagmi/providers/public"
 import { connectorsForWallets, wallet } from "@rainbow-me/rainbowkit"
 import { RainbowKitProvider } from "@rainbow-me/rainbowkit"
 import "./styles.css"
+import "@rainbow-me/rainbowkit/styles.css";
 
 export const { chains, provider } = configureChains(
-  [chain.mainnet, chain.polygon, chain.optimism, chain.arbitrum],
+  [chain.polygonMumbai],
   [publicProvider()]
 )
 
