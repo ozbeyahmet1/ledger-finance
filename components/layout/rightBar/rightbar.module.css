@@ -1,0 +1,124 @@
+.rightBar{
+    width: var(--rightBarWidth);
+    background: #262626;
+    height: 100vh;
+    right: 0;
+    position: fixed;
+    padding: 40px 50px;
+    top: 0;
+}
+
+.rightBar__headline{
+    font-size: 28px;
+    color: white;
+    font-weight: 400;
+    margin-top:50px;
+    margin-bottom: 20px;
+}
+
+.rightBar__image{
+    margin-top: 60px;
+}
+
+.rightBar__userIcon{
+    background: linear-gradient(346.66deg, rgba(210, 210, 210, 0.12) 19.17%, rgba(182, 182, 182, 0.31) 80.83%);
+    border: 0.25px solid #686868;
+    backdrop-filter: blur(76.1462px);
+    border-radius: 10px;
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.rightBar__user {
+    display: flex;
+    align-items: center;
+   
+}
+
+.rightBar__index{
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    justify-content: center;
+    margin-left: 20px;
+}
+
+.rightBar__index h2 {
+  margin:0;
+  color: white;
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.rightBar__index h3 {
+    margin:0;
+    color: white;
+    font-size: 14px;
+    font-weight: 400;
+  }
+
+  .black{
+    background-color: var(--grey);
+}
+
+.purple{
+    background-color:var(--purple);
+}
+
+.rightBar__userIcon svg {
+    font-size: 60px;
+}
+
+
+/* Single Transaction module */
+
+
+.rightBar__transaction{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.rightBar__transaction div {
+    margin-left: 20px;
+}
+
+.rightBar__transaction div h2 {
+    font-size: 20px;
+    color: white;
+    margin: 0;
+}
+
+.rightBar__transaction div h4 {
+    font-size: 16px;
+    color: #C5C5C5;
+    margin: 0;
+    font-weight: 400;
+}
+
+.rightBar__transaction h3 {
+    color: white;
+}
+
+
+.rightBar__icon{
+    background-color: #FF5E5B;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+
+.transaction__index{
+    display: flex;
+    align-items: center;
+}
+
+.transaction__index svg {
+    font-size: 50px;
+}

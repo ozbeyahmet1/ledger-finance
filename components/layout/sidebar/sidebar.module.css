@@ -5,6 +5,7 @@
     min-height: 100vh;
     padding: 40px;
     box-shadow: var(--boxShadow);
+    background-color: #292929;
 }
 
 .black{
