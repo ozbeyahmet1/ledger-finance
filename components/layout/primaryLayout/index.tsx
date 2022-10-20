@@ -2,6 +2,7 @@ import { useSession } from "next-auth/react"
 import Head from "next/head"
 import * as React from "react"
 import Sidebar from "../sidebar"
+import RightBar from '../rightBar'
 export interface IAppProps {
   children: React.ReactNode
   selected: string
@@ -36,6 +37,7 @@ export default function App(props: IAppProps) {
           href="https://res.cloudinary.com/droheqpxn/image/upload/v1642427169/ledger/Logo_vovqso.png"
         />
       </Head>
+      <RightBar/>
       <Sidebar selected={props.selected} />
       {session && props.children}
     </div>

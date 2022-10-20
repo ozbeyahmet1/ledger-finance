@@ -1,5 +1,5 @@
 .rightBar{
-    width: var(--rightBarWidth);
+    width: 25%;
     background: #262626;
     height: 100vh;
     right: 0;

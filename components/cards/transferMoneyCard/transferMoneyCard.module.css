@@ -1,0 +1,23 @@
+.sendMoney{
+    display: flex;
+    align-items: flex-start;
+    height: 100%;
+}
+
+.sendMoney h2 {
+    font-size: 48px;
+    flex: 0.8;
+    line-height: 52px;
+}
+
+.sendMoney h4{
+    color: grey;
+    font-weight: 400;
+    font-size: 18px;
+    margin-top: 5px;
+}
+
+.sendMoney__top{
+    display: flex;
+    flex-direction: column;
+}

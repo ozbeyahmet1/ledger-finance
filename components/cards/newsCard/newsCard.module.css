@@ -1,0 +1,30 @@
+.new{
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 20px;
+    cursor: pointer;
+}
+
+.new  div {
+    margin-left: 20px;
+}
+
+.new  div  h2{
+    font-size: 24px;
+    color: white;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+.new  div  h5{
+    font-size: 12px;
+    color: white;
+    font-weight: 400;
+    margin-top: 5px;
+    cursor: pointer;
+}
+
+.new div h5:hover{
+    text-decoration: underline;
+    transition: all 0.3s;
+}

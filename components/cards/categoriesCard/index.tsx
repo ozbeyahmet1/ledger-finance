@@ -2,7 +2,9 @@ import * as React from "react"
 import styles from './categoriesCard.module.css'
 import { PieChart } from 'react-minimal-pie-chart';
 
-export interface IAppProps {}
+export interface IAppProps {
+  color:string;
+}
 
 export default function App(props: IAppProps) {
   return (
