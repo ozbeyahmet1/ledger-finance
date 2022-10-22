@@ -1,0 +1,226 @@
+.transactionCard,.transactionCard--dark{
+    width: 960px;
+    height: 100%;
+    left: 890px;
+    top: 150px;
+    background: linear-gradient(86.17deg, #323232 6.28%, #424242 93.72%);
+    border-radius: 10px;
+    margin-bottom: 15px;
+    border: 2px solid rgb(78, 78, 78);
+    padding: 10px 40px;
+}
+
+.transactionCard--dark{
+    background:var(--purple);
+}
+
+
+.transactionCard--top{
+    display: flex;
+    align-items: center;
+}
+
+.transaction__headline{
+    margin-left: 20px;
+}
+
+.transaction__headline h2{
+    font-size: 20px;
+    line-height: 24px;
+    color: white;
+    font-weight: 500;
+}
+
+.transaction__headline h5{
+    font-size: 16px;
+    line-height: 20px;
+    color: rgb(211, 211, 211);
+    font-weight: 400;
+}
+
+.transactionCard--left{
+    display: flex;
+    align-items: center;
+    flex: 0.6;
+}
+.transaction__value{
+    font-size: 28px;
+    color: white;
+    flex: 0.3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.transaction__type{
+    flex: 0.5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.transaction__type h2 {
+    background-color: crimson;
+    font-size: 16px;
+    line-height: 24px;
+    border-radius: 25px;
+    padding: 5px 15px;
+    font-weight: 400;
+}
+
+.transaction__description{
+    margin-top: 10px;
+}
+.transaction__description h2{
+    font-size: 16px;
+    font-weight: 500;
+    color: rgb(72, 72, 233);
+    cursor: pointer;
+}
+
+.transaction__description h3{
+    font-size: 16px;
+    font-weight: 500;
+    color: rgb(255, 255, 255);
+}
+
+.transacion__iconWrapper{
+    flex: 0.1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.transaction__descriptionIcon{
+    display: flex;
+    align-items: center;
+}
+
+.transaction__type--resp{
+    display: none;
+}
+
+
+.transactionCard__icon--grey{
+    background-color: rgb(116, 116, 116);
+    font-size: 60px !important;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.transactionCard__icon--blue{
+    background-color: rgb(19, 149, 201);
+    font-size: 60px !important;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.transactionCard__icon--red{
+    background-color: rgb(230, 10, 10);
+    font-size: 60px !important;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.transactionCard__icon--orange{
+    background-color: rgb(255, 208, 0);
+    font-size: 60px !important;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.transactionCard__icon--burgundy{
+    background-color: rgb(80, 0, 0);
+    font-size: 60px !important;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.transactionCard__icon--pink{
+    background-color: rgb(221, 45, 221);
+    font-size: 60px !important;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.transactionCard__icon--gold{
+    background-color: rgb(144, 146, 0);
+    font-size: 60px !important;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+
+.transactionCard__icon--green{
+    background-color: rgb(154, 240, 57);
+    font-size: 60px !important;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.transactionCard__icon--yellow{
+    background-color: rgb(234, 250, 144);
+    font-size: 60px !important;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.transaction__nodescription{
+    font-size: 16px;
+    font-weight: 500;
+    color: rgb(255, 255, 255);
+    margin-top: 10px;
+}
+
+@media screen and (max-width: 996px) {
+    .transactionCard,.transactionCard--dark{
+        box-sizing: border-box;
+        width: 100%;
+        height: 100%;
+        left: 0;
+        top: 0;
+        border-radius: 5px;
+        margin-bottom: 15px;
+        margin-top: 0px;
+        padding: 10px;
+    }   
+    .transaction__headline{
+        margin-left: 0px;
+    }
+    .transaction__headline h2{
+        font-size: 16px;
+    }
+    
+    .transaction__headline h5{
+        font-size: 12px;
+    } 
+    .transaction__value{
+        font-size: 16px;
+        color: white;
+    }
+
+    .transaction__type {
+        flex: 0.3;
+    }
+
+    .transaction__type h2 {
+        display: none;
+    }
+    .transacion__iconWrapper svg{
+        width: 20px;
+        height: 20px;
+    }
+    .transactionCard--left{
+        display: flex;
+        align-items: flex-start;
+        flex: 0.8;
+    }
+    .transactionCard--left svg{
+        width: 40px;
+        height:40px;
+    }
+    .transaction__type--resp{
+        display: flex;
+    }
+}

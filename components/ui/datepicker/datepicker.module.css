@@ -1,0 +1,57 @@
+.datepicker{
+    background-color: rgb(0, 0, 0);
+    background: radial-gradient(circle at 24.1% 68.8%, rgb(50, 50, 50) 0%, rgb(0, 0, 0) 99.4%);
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    color: white !important;
+    border-radius: 10px;
+    margin: 0;
+}
+
+.datepicker > div {
+    width: 100%;
+}
+
+
+.datepicker div div div span{
+    color: white;
+    font-weight: 400;
+    padding: 0;
+    padding: 0;
+}
+.datepicker div div div div div div button{
+    background-color: transparent;
+    color: white !important;
+}
+
+.datepicker div div div div div div button:hover{
+    background-color: transparent;
+}
+
+
+
+.PrivatePickersSlideTransition-root .css-1cnkspq{
+    background-color: yellow;
+}
+
+.datepicker div div button {
+    color: rgb(255, 255, 255) !important;
+}
+
+.datePicker__input{
+    width: 100%;
+    font-size: 16px;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: transparent;
+    color: rgb(168, 168, 168);
+    border: 1px solid grey;
+    font-family: 'Mulish',sans-serif;
+}
+
+.datePicker__input::-webkit-calendar-picker-indicator {
+    width: 15px;
+    padding: 0px;
+    margin: 0px;
+    margin-top: 0px;
+    background-color: rgb(168, 168, 168);
+}

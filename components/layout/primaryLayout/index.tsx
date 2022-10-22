@@ -3,15 +3,19 @@ import Head from "next/head"
 import * as React from "react"
 import Sidebar from "../sidebar"
 import RightBar from '../rightBar'
+import { useAccount } from "wagmi"
+import { useRouter } from 'next/router'
 export interface IAppProps {
   children: React.ReactNode
   selected: string
 }
 
 export default function App(props: IAppProps) {
+  const router = useRouter()
   const { data: session, status } = useSession()
   const loading = status === "loading"
   const [content, setContent] = React.useState()
+  const { address } = useAccount()
 
   React.useEffect(() => {
     const fetchData = async () => {
@@ -24,6 +28,8 @@ export default function App(props: IAppProps) {
     fetchData()
   }, [session])
 
+
+  
   // When rendering client side don't display anything until loading is complete
   if (typeof window !== "undefined" && loading) return null
 
@@ -37,9 +43,9 @@ export default function App(props: IAppProps) {
           href="https://res.cloudinary.com/droheqpxn/image/upload/v1642427169/ledger/Logo_vovqso.png"
         />
       </Head>
-      <RightBar/>
+      {props.selected=="dashboard" && <RightBar/>}
       <Sidebar selected={props.selected} />
-      {session && props.children}
+      {address ? props.children : <h2 style={{marginLeft:"20%"}}>No address</h2>}
     </div>
   )
 }
