@@ -1,0 +1,139 @@
+
+.cryptocurrencies{
+    background-color: #1A1A1B;
+    width: 100vw;
+    min-height: 100vh;
+    height: 100%;
+    overflow-x: hidden;
+    width: 100%;
+}
+
+.cryptocurrencies__content{
+    padding-top: 40px;
+    padding-bottom: 40px;
+    padding-left: 430px;
+    padding-right: 70px;
+    overflow-x: scroll;
+}
+
+.cryptocurrencies__portfolio{
+    background-color: #5e5e5e;
+    border-bottom: 1px solid white;
+    height: 100%;
+    width: 100%;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.cryptocurrencies__portfolio h2{
+    font-size: 60px;
+    color: white;
+}
+
+.cryptocurrencies__inputWrapper{
+    width: 500px;
+    display: flex;
+    align-items: center;
+}
+
+.cryptocurrencies__dark{
+    font-size: 12px;
+    height: 100%;
+    padding: 12px;
+    background-color: transparent;
+    border: 1px solid white;
+    margin-left: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    color: white;
+}
+
+.cryptocurrencies__light{
+    font-size: 12px;
+    height: 100%;
+    padding: 12px;
+    background-color: transparent;
+    border: 1px solid white;
+    margin-left: 5px;
+    color: rgb(255, 255, 255);
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.cryptocurrencies__active{
+    font-size: 12px;
+    height: 100%;
+    padding: 12px;
+    border: 1px solid white;
+    margin-left: 5px;
+    cursor: pointer;
+    border-radius: 5px;
+    background-color: white;
+    color: black;
+}
+
+.cryptocurrencies__portfolio input[type=text]{
+    border: 2px solid rgb(179, 179, 179);
+    background-color: transparent;
+    padding: 10px;
+    width: 100%;
+    border-radius: 5px;
+    color: white;
+    background-color: #474747;
+}
+
+.cryptocurrencies__portfolio input[type=text]:focus{
+   outline: none;
+   color: white;
+   font-family: 'Mulish',sans-serif;
+}
+
+.cryptocurrencies__portfolio input[type=text]::placeholder{
+    color: rgb(175, 175, 175);
+    font-family: 'Mulish',sans-serif;
+}
+
+.cryptocurrencies--top{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.cryptocurrencies--top h2{
+    color: white;
+    margin-left: 5px;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.cryptocurrencies--top h2:hover{
+    transition: all 0.3s;
+    color: #b3b3b3;
+}
+
+.cryptocurrencies__row{
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid white;
+    justify-content: space-between;
+    padding: 15px;
+    background-color: #3a3a3a;
+}
+
+.cryptocurrencies__coin{
+    flex:0.3;
+    font-size: 18px;
+}
+
+.cryptocurrencies__price{
+    flex:0.2;
+    font-size: 18px;
+}
+
+.cryptocurrencies__process{
+    flex: 0.1;
+    font-size: 18px;
+}

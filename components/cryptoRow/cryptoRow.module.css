@@ -1,0 +1,89 @@
+.row{
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid white;
+    justify-content: space-between;
+    padding: 15px;
+}
+
+.row__index{
+    flex: 0.3;
+    /* background-color: yellow; */
+    display: flex;
+    align-items: center;
+}
+
+.row__index h4 {
+    font-size: 20px;
+    margin-left: 5px;
+}
+
+.row__index h5 {
+    font-size: 20px;
+    margin-left: 5px;
+    color: rgb(179, 179, 179);
+}
+
+.row__price{
+    flex:0.2;
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+.row__price h4{
+    font-size: 18px;
+}
+
+.row__price--positive,.row__price--negative{
+    flex:0.2;
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+.row__price--positive{
+    color: rgb(14, 179, 14);
+    font-size: 18px;
+    flex: 0.2;
+}
+
+
+.row__price--negative{
+    color: rgb(204, 26, 26);
+    font-size: 18px;
+    flex: 0.2;
+}
+
+.row__follow,.row__follow--red{
+    flex:0.1;
+    background-color: rgb(33, 135, 230);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.row__follow h2,
+.row__follow--red h2{
+    font-size: 16px;
+    padding: 10px 20px;
+}
+
+.row__follow--red{
+    background-color: red;
+}
+
+
+.row__index{
+    flex: 0.3;
+    /* background-color: yellow; */
+    display: flex;
+    align-items: center;
+}
+
+.row__price--resp h4{
+    font-size: 14px;
+}
+
