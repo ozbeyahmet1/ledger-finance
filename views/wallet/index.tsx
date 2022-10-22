@@ -3,22 +3,16 @@ import TransactionCard from "../../components/cards/transactionCard"
 import styles from "./wallet.module.css"
 import BalanceCard from '../../components/cards/balanceCard'
 import {Add,CloseOutlined,AccessTimeOutlined} from '@mui/icons-material';
-// import { AnimatePresence } from "framer-motion";
-// import Modal from "../../components/ui/modal";
 import DatePicker from '../../components/ui/datepicker'
-import Selects from '../../components/ui/select'
 import Inputs from '../../components/ui/input'
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import Modal from '@mui/material/Modal';
+
+
 export interface IAppProps {}
 
 export default function App(props: IAppProps) {
     const [clicked,setClicked]=React.useState(0);
     const [open, setOpen] = React.useState(false);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
+    const [value, setValue] = React.useState(new Date());
 
     const type_options = [
       { value: "Income", text: "Income" },
@@ -35,7 +29,7 @@ export default function App(props: IAppProps) {
       boxShadow: 24,
       p: 4,
     };
-
+    
     const categories_options = [
       { value: "Housing", text: "Housing" },
       { value: "Transportation", text: "Transportation" },
@@ -47,6 +41,7 @@ export default function App(props: IAppProps) {
       { value: "Education", text: "Education" },
       { value: "Entertainment", text: "Entertainment" },
     ]
+    console.log("value",value)
 
     const [formInfo, setFormInfo] = React.useState({
       type: "Income",
@@ -71,7 +66,7 @@ export default function App(props: IAppProps) {
           <BalanceCard background="purple" />
           <div
             className={styles["wallet__addNewTransaction"]}
-            onClick={handleOpen}
+            onClick={()=>setOpen(true)}
           >
             <Add />
             <h3>Add New Transaction </h3>
@@ -115,28 +110,88 @@ export default function App(props: IAppProps) {
       </div>
 
       {/*Modal Starts**/}
-      {/* <AnimatePresence
-        initial={false}
-        exitBeforeEnter={true}
-        onExitComplete={() => null}
-      > */}
-          <Modal
-            open={open}
-            onClose={handleClose}
+      {open && 
+          <div
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
+            className={styles['walletModal']}
           >
-            <Box sx={style}>
-              <Typography id="modal-modal-title" variant="h6" component="h2">
-                Text in a modal
-              </Typography>
-              <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-              </Typography>
-            </Box>
-          </Modal>
+          <>
+          <div className={styles["walletModal--top"]}>
+              <h2>Add New Transaction</h2>
+              <CloseOutlined
+                onClick={()=>setOpen(false)}
+                className={styles["walletModal__icon"]}
+              />
+            </div>
+            <div className={styles["walletModal--bottom"]}>
+              <DatePicker date={value} setDate={setValue}/>
+             
+              <div className={styles["walletModal--right"]}>
 
-      {/* </AnimatePresence> */}
+                <div className={styles["walletModal__time"]}>
+                  <AccessTimeOutlined/>
+                  <h4>16:59:03 21/11/2021</h4>
+                </div>
+
+                <div className={styles["selectWrapper"]}>
+                  <select
+                    value={formInfo.type}
+                    onChange={(event: any)=>setFormInfo({ ...formInfo,type: event?.target?.value })}
+                    className={styles[`select`]}
+                  >
+                    {type_options.map((option) => {
+                      return <option key={option.value} value={option.value}>
+                      {option.text} 
+                    </option>
+                    })}
+                  </select>
+                </div>
+
+                <div className={styles["selectWrapper"]}>
+                  <select
+                    value={formInfo.category}
+                    onChange={(event: any)=>setFormInfo({ ...formInfo,category: event?.target?.value })}
+                    className={styles[`select`]}
+                  >
+                    {categories_options.map((option) => {
+                      return <option key={option.value} value={option.value}>
+                      {option.text} 
+                    </option>
+                    })}
+                  </select>
+                </div>
+                
+                {formInfo.category}
+                <Inputs 
+                  func={(e:any) => setFormInfo({ ...formInfo,headline: e?.target?.value })}
+                  value={formInfo.headline}
+                  placeholder="Please enter the headline"
+                  disabled={false}
+                  inputClass=""
+                />
+  
+                <Inputs 
+                  func={(e:any) => setFormInfo({ ...formInfo,value: e?.target?.value })}
+                  value={formInfo.value}
+                  placeholder="Please enter the value"
+                  disabled={false}
+                  inputClass=""
+                />
+
+                <Inputs 
+                  func={(e:any) => setFormInfo({ ...formInfo,description: e?.target?.value })}
+                  value={formInfo.description}
+                  placeholder="Please enter the description"
+                  disabled={false}
+                  inputClass=""
+                />
+                <h4 className={styles["model__button"]} onClick={()=>sendPosts()}>Post</h4> 
+              </div>
+            </div>
+          </> 
+          </div>
+        }
       {/*Modal Ends**/}
 
     </div>
