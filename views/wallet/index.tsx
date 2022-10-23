@@ -5,7 +5,7 @@ import BalanceCard from '../../components/cards/balanceCard'
 import {Add,CloseOutlined,AccessTimeOutlined} from '@mui/icons-material';
 import DatePicker from '../../components/ui/datepicker'
 import Inputs from '../../components/ui/input'
-
+import { TransactionInterface } from "../../interfaces/transaction.interface";
 
 export interface IAppProps {}
 
@@ -52,9 +52,42 @@ export default function App(props: IAppProps) {
       value: "",
     });
 
-    const sendPosts = () =>{
-      console.log("hi")
+const [transaction, setTransaction] = React.useState("");
+const [transactions, setTransactions] = React.useState<any[]>([]);
+
+const localTxns = localStorage.getItem("transactions") || "";
+const localTxnsJson= localTxns && JSON.parse(localTxns);
+React.useEffect(()=>{
+    if(localStorage.getItem("transactions")){
+        const storedList = JSON.parse(localTxns);
+        setTransactions(storedList);
     }
+},[])
+
+const sendPost = (e:any) => {
+    const newTransaction = {   
+      type: formInfo.type,
+      category:formInfo.category,
+      date: formInfo.date,
+      description: formInfo.description,
+      headline: formInfo.headline,
+      value: formInfo.value,
+    };
+    setTransactions([...transactions, newTransaction]);
+    localStorage.setItem("transactions", JSON.stringify([...transactions, newTransaction]));
+    setTransaction("");
+};
+
+const handleDelete = (transaction:any)=>{
+    const deleted = transactions.filter((t:any)=>t.id !== transaction.id);
+    setTransactions(deleted);
+    localStorage.setItem("transactions", JSON.stringify(deleted))
+}
+
+const handleClear=()=>{
+    setTransactions([]);
+    localStorage.removeItem("transactions");
+}
 
   return (
     <div className={styles["wallet"]}>
@@ -84,27 +117,19 @@ export default function App(props: IAppProps) {
           <div className={styles["wallet__transactionWrapper"]}>
             <h4>Stashing Transactions</h4>
 
-            {/* {transactions.map((transaction, id) => {
-              return <TransactionCard transaction={transaction} key={id} />
-            })} */}
-                <TransactionCard
-                    date='5/12/12'
-                    headline='Maaş'
+                  {localTxns ? localTxnsJson.map((element:TransactionInterface,id:number)=>{
+                    return <TransactionCard
+                    date={element.headline}
+                    headline={element.headline}
                     value={300}
-                    type="income"
-                    description='desc'
-                    category='Housing'
+                    type={element.type}
+                    description={element.description}
+                    category={element.category}
+                    key={id}
                 />
-
-                <TransactionCard
-                    date='5/12/12'
-                    headline='Maaş'
-                    value={300}
-                    type="income"
-                    description='desc'
-                    category='Housing'
-                />
-            <h3 className={styles["wallet__pushButton"]}>Push to Blockchain</h3>
+                  }): <h2>No transaction recorded</h2>}
+             
+            <h3 className={styles["wallet__pushButton"]} onClick={()=>handleClear()}>Push to Blockchain</h3>
           </div>
         </div>
       </div>
@@ -163,30 +188,43 @@ export default function App(props: IAppProps) {
                 </div>
                 
                 {formInfo.category}
-                <Inputs 
+                {/* <Inputs 
                   func={(e:any) => setFormInfo({ ...formInfo,headline: e?.target?.value })}
                   value={formInfo.headline}
                   placeholder="Please enter the headline"
                   disabled={false}
                   inputClass=""
-                />
+                /> */}
   
-                <Inputs 
-                  func={(e:any) => setFormInfo({ ...formInfo,value: e?.target?.value })}
-                  value={formInfo.value}
-                  placeholder="Please enter the value"
-                  disabled={false}
-                  inputClass=""
-                />
 
-                <Inputs 
-                  func={(e:any) => setFormInfo({ ...formInfo,description: e?.target?.value })}
-                  value={formInfo.description}
-                  placeholder="Please enter the description"
-                  disabled={false}
-                  inputClass=""
-                />
-                <h4 className={styles["model__button"]} onClick={()=>sendPosts()}>Post</h4> 
+              <div className={styles['profile__input']}>
+                  <input
+                    type="text"
+                    placeholder="value"
+                    onChange={(e:any) => setFormInfo({ ...formInfo,value: e?.target?.value })}
+                    value={formInfo.value}
+                  />
+                </div>
+
+                <div className={styles['profile__input']}>
+                  <input
+                    type="text"
+                    placeholder="description"
+                    onChange={(e:any) => setFormInfo({ ...formInfo,description: e?.target?.value })}
+                    value={formInfo.description}
+                  />
+                </div>
+
+                <div className={styles['profile__input']}>
+                  <input
+                    type="text"
+                    placeholder="headline"
+                    onChange={(e:any) => setFormInfo({ ...formInfo,headline: e?.target?.value })}
+                    value={formInfo.headline}
+                  />
+                </div>
+
+                <h4 className={styles["model__button"]} onClick={()=>sendPost(formInfo)}>Post</h4> 
               </div>
             </div>
           </> 
