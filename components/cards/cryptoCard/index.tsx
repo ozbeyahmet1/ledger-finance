@@ -29,7 +29,7 @@ export default function App (props: IAppProps) {
                 height={40}
               />
             </div>
-            <h4>{parseFloat(props.crypto.current_price).toFixed(2)} USD</h4>
+            <h4>{props.crypto.current_price.toFixed(2)} USD</h4>
         </div>
     </div>
     
