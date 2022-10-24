@@ -15,7 +15,9 @@
     "@emotion/react": "^11.10.4",
     "@emotion/styled": "^11.10.4",
     "@iconify/react": "^4.0.0",
+    "@material-ui/pickers": "^3.3.10",
     "@mui/icons-material": "^5.10.9",
+    "@mui/lab": "^5.0.0-alpha.104",
     "@mui/material": "^5.10.10",
     "@mui/styled-engine-sc": "^5.10.0",
     "@mui/x-date-pickers": "^5.0.0-beta.5",
@@ -46,9 +48,8 @@
   },
   "prettier": {
     "semi": false
-  }, 
+  },
   "resolutions": {
     "@types/react": "17.0.40"
   }
-
 }
