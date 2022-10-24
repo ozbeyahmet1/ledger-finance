@@ -1,5 +1,5 @@
 import React from 'react'
-import styles from './rightBar.module.css'
+import styles from './rightbar.module.css'
 import Image from 'next/image'
 // import DrawerComponent from '../../../UI/Drawer'
 import Link from 'next/link'

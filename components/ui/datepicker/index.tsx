@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import styles from './Datepicker.module.css'
+import styles from './datepicker.module.css'
 import { CalendarPicker } from '@mui/x-date-pickers';
 
 export interface IAppProps {
