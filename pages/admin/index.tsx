@@ -1,8 +1,8 @@
-import Layout from "../../components/layout"
+import Layout from "../../components/layout/primaryLayout"
 
 export default function Page() {
   return (
-    <Layout>
+    <Layout selected="">
       <h1>This page is protected by Middleware</h1>
       <p>Only admin users can see this page.</p>
       <p>
