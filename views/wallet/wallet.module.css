@@ -89,6 +89,8 @@
     padding: 50px;
     border: 2px solid grey;
     backdrop-filter: blur(76.1462px);
+    transition: opacity 250ms 700ms ease;
+    transition: opacity 300ms 300ms ease, transform 300ms 300ms ease, 
 }
 .walletModal--top{
     display: flex;
@@ -249,6 +251,7 @@
     color: #FFC700;
 }
 .wallet__transactionWrapper{
+    width: 100%;
     padding: 10px;
     border: 2px solid rgb(83, 83, 224);
     border-radius: 5px;
