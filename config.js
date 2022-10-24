@@ -1,1 +1,0 @@
-export const ledgerToDoAddress = "0x0d4ef335e7984BFa77A5b46fc4FeBeD260146fC8"
