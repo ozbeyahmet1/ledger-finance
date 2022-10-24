@@ -150,7 +150,7 @@ const handleClear=()=>{
               />
             </div>
             <div className={styles["walletModal--bottom"]}>
-              <DatePicker date={value} setDate={setValue}/>
+              {/* <DatePicker date={value} setDate={setValue}/> */}
              
               <div className={styles["walletModal--right"]}>
 
