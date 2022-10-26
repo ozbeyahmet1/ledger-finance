@@ -20,7 +20,9 @@
     "@mui/styled-engine-sc": "^5.10.0",
     "@mui/x-date-pickers": "^5.0.0-beta.5",
     "@rainbow-me/rainbowkit": "^0.4.1",
+    "abitype": "^0.1.7",
     "date-fns": "^2.29.1",
+    "dotenv": "^16.0.3",
     "ethers": "^5.7.2",
     "framer-motion": "^7.6.1",
     "lint": "^0.7.0",
@@ -35,7 +37,8 @@
     "react-vis": "^1.11.7",
     "siwe": "^2.0.5",
     "ts-node": "^10.9.1",
-    "wagmi": "^0.6.6"
+    "wagmi": "^0.6.6",
+    "web3modal": "^1.9.9"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.1.2",
