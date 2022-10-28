@@ -1,7 +1,6 @@
 import * as React from 'react';
 import styles from './dashboard.module.css'
 import Link from 'next/link';
-import RightBar from '../../components/layout/rightBar'
 import BalanceCard from '../../components/cards/balanceCard'
 import CryptoCard from '../../components/cards/cryptoCard'
 import StatsCard from '../../components/cards/statsCard'
@@ -9,12 +8,39 @@ import NewsCard from '../../components/cards/newsCard'
 import CategoriesCard from '../../components/cards/categoriesCard'
 import TransferMoneyCard from '../../components/cards/transferMoneyCard'
 import { CryptoInterface } from '../../interfaces/crypto.interface';
+import { NewsInterface } from '../../interfaces/news.interface';
 
 export interface IDashboardViewProps {
   cryptos:CryptoInterface[];
+  news:NewsInterface[];
 }
 
-export default function App (props: IDashboardViewProps) {
+export default function App ({cryptos,news}:IDashboardViewProps) {
+  const incomeStats = [
+    { x: 0, y: 8 },
+    { x: 1, y: 5 },
+    { x: 2, y: 4 },
+    { x: 3, y: 9 },
+    { x: 4, y: 5 },
+    { x: 5, y: 7 },
+    { x: 6, y: 6 },
+    { x: 7, y: 3 },
+    { x: 8, y: 4 },
+    { x: 9, y: 7 },
+];
+
+const outcomeStats = [
+  { x: 0, y: 1 },
+  { x: 1, y: 2 },
+  { x: 2, y: 5 },
+  { x: 3, y: 7 },
+  { x: 4, y: 5 },
+  { x: 5, y: 6 },
+  { x: 6, y: 4 },
+  { x: 7, y: 3 },
+  { x: 8, y: 1 },
+  { x: 9, y: 7 },
+];
 
   return (
     <div className={styles["dashboard"]}>
@@ -38,7 +64,7 @@ export default function App (props: IDashboardViewProps) {
           <div className={styles["dashboard__crypto"]}>
             <h3>Cryptocurrencies</h3>
             <div className={styles['dashboard__cryptoWrapper']}>
-              {props.cryptos.map((crypto, i) => {
+              {cryptos.map((crypto, i) => {
                 return <CryptoCard key={i} crypto={crypto} />;
               })}
               <Link href="/cryptocurrencies">
@@ -54,11 +80,11 @@ export default function App (props: IDashboardViewProps) {
             <div className={styles["dashboard__stats"]}>
               <div className={styles["dashboard__stats--single"]}>
                 <h3>Income Stats</h3>
-                <StatsCard color="#BD5AAD" />
+                <StatsCard color="#BD5AAD" data={incomeStats}/>
               </div>
               <div className={styles["dashboard__stats--single"]}>
                 <h3>Outcome Stats</h3>
-                <StatsCard color="#F16516" />
+                <StatsCard color="#F16516" data={outcomeStats}/>
               </div>
             </div>
           </div>
@@ -71,9 +97,9 @@ export default function App (props: IDashboardViewProps) {
           {/*News*/}
           <div className={styles["dashboard__crypto"]} style={{padding:"20px 30px"}}>
             <h3>News</h3>
-            <NewsCard />
-            <NewsCard />
-            <NewsCard />
+            <NewsCard news={news?.[0]}/>
+            <NewsCard news={news?.[2]}/>
+            <NewsCard news={news?.[3]} />
             <Link href="/news">
               <div className={styles["dashboard__loadMore"]}>
                 <h4>Load More </h4>
@@ -85,7 +111,7 @@ export default function App (props: IDashboardViewProps) {
           <div className={styles["dashboard__categories"]}>
             <div className={styles["dashboard__categories--single"]}>
               <h3>Categories</h3>
-              <CategoriesCard color="#BD5AAD" />
+              <CategoriesCard/>
             </div>
             <div className={ styles["dashboard__categories--single"]}>
               <TransferMoneyCard />

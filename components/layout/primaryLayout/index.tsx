@@ -5,6 +5,8 @@ import Sidebar from "../sidebar"
 import RightBar from '../rightBar'
 import { useAccount } from "wagmi"
 import { useRouter } from 'next/router'
+import styles from './primaryLayout.module.css'
+
 export interface IAppProps {
   children: React.ReactNode
   selected: string
@@ -45,7 +47,10 @@ export default function App(props: IAppProps) {
       </Head>
       {props.selected=="dashboard" && <RightBar/>}
       <Sidebar selected={props.selected} />
-      {address ? props.children : <h2 style={{marginLeft:"20%"}}>No address</h2>}
+      {(address&&session) && props.children}
+      {(address&&!session) && <h2 className={styles['primaryLayout__button']}>You are connected to metamask. Please Sign In</h2>}
+      {!address && <h2 className={styles['primaryLayout__button']}>Please Connect to metamask</h2>}
+
     </div>
   )
 }

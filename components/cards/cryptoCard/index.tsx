@@ -3,24 +3,24 @@ import * as React from 'react';
 import styles from './cryptoCard.module.css'
 import { Icon } from '@iconify/react'
 import { CryptoInterface } from '../../../interfaces/crypto.interface';
-export interface IAppProps {
+export interface ICryptoCard {
     crypto:CryptoInterface;  
 }
 
-export default function App (props: IAppProps) {
+export default function CryptoCard ({crypto}: ICryptoCard) {
   return (
     <div className={styles['crypto']}>
     <div className={styles['crypto--left']}>
       <div className={styles['crypto__currency']}>
-          <Icon icon={`cryptocurrency:${props.crypto.symbol}`}  width="40" height="50" color="#C5C5C5" className={styles.currencyIcon}/>
+          <Icon icon={`cryptocurrency:${crypto.symbol}`}  width="40" height="50" color="#C5C5C5" className={styles.currencyIcon}/>
         </div>
         <div className={styles['crypto__index']}>
             <div>
-              <h2>{props.crypto.name}</h2>
-              <h5 className={(props.crypto.price_change_percentage_24h > 0) 
+              <h2>{crypto.name}</h2>
+              <h5 className={(crypto.price_change_percentage_24h > 0) 
               ? styles['crypto__percantage--positiveResp'] 
               : styles['crypto__percantage--negativeResp'] }>
-                {props.crypto.price_change_percentage_24h.toFixed(2)} %</h5>
+                {crypto.price_change_percentage_24h.toFixed(2)} %</h5>
             </div>
             <div className={styles['crypto__stats']}>
               <Image 
@@ -29,14 +29,14 @@ export default function App (props: IAppProps) {
                 height={40}
               />
             </div>
-            <h4>{props.crypto.current_price.toFixed(2)} USD</h4>
+            <h4>{crypto.current_price.toFixed(2)} USD</h4>
         </div>
     </div>
     
-      <h5 className={(props.crypto.price_change_percentage_24h > 0) 
+      <h5 className={(crypto.price_change_percentage_24h > 0) 
           ? styles['crypto__percantage--positive'] 
           : styles['crypto__percantage--negative'] }>
-            {props.crypto.price_change_percentage_24h.toFixed(2)} %</h5>
+            {crypto.price_change_percentage_24h.toFixed(2)} %</h5>
   </div>
   );
 }

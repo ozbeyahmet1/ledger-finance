@@ -9,15 +9,6 @@
     
 }
 
-/* .connectButton::before {
-    content: "connectButton";
-    position: absolute;
-    height: 50%;
-    width: 50%;
-    background: linear-gradient(90deg, purple, green, hotpink);
-    z-index: -1;
-    filter: blur(20px);
-  } */
 
 .connectButton:hover{
     box-shadow: 0px 0px 5px 5px rgb(255, 251, 0);
@@ -63,15 +54,3 @@
     font-family: 'Mulish',sans-serif;
 }
 
-
-@media screen and (max-width: 1024px) {
-    .connectButton{
-        border-radius: 5px;
-        padding: 0 5px;
-    }
-    .accountWrapper{
-        border: none;
-        background-color: transparent;
-    }
-   
-  }

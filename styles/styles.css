@@ -60,6 +60,9 @@ a {
 	background-color: #555;
 }
 
+.icon--grey{
+  background-color: red;
+}
 
 @media screen and (max-width: 996px) {
   *::-webkit-scrollbar{

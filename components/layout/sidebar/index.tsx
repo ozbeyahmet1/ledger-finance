@@ -152,6 +152,7 @@ export default function SidebarComponent(props: ISidebarComponentProps) {
               e.preventDefault()
               handleLogin()
             }}
+            className={styles['sidebar__button']}
           >
             Please Sıgn In
           </button>

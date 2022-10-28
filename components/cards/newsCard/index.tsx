@@ -1,22 +1,26 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import * as React from 'react';
+import { NewsInterface } from '../../../interfaces/news.interface';
 import styles from './newsCard.module.css'
 
-export interface IAppProps {
+export interface INewsCardProps {
+  news:NewsInterface;
 }
 
-export default function App (props: IAppProps) {
+export default function NewsCard({news}: INewsCardProps) {
   return (
-    <div className={styles['new']}>
-    <Image 
-        src="https://res.cloudinary.com/droheqpxn/image/upload/v1659798598/ledger/https_3A_2F_2Fd1e00ek4ebabms.cloudfront.net_2Fproduction_2Fcd1e2d17-ec02-45ed-bb1e-08b1fbedc66d_hgh6zg.jpg"
-        width={150}
-        height={150}
-    />
-    <div>
-        <h2>Pfizer in talks to buy Global Blood</h2>
-        <h5>Pfizer is close to acquiring Global Blood Therapeutics..</h5>
-    </div>
-</div>
+      <div className={styles['newscard']}>
+      <img 
+          src={news?.urlToImage}
+          width={80}
+          height={80}
+      />
+      <div>
+      <Link href={news.url}><h2>{news.title.slice(0,30)}...</h2></Link>
+          <h5>{news?.content?.slice(0,80)}...</h5>
+      </div>
+  </div>
+
   );
 }

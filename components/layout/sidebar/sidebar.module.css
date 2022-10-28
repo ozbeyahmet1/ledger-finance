@@ -8,14 +8,6 @@
     background-color: #292929;
 }
 
-.black{
-    background-color: var(--grey);
-}
-
-.purple{
-    background-color:var(--purple);
-}
-
 .sidebar__logo{
     cursor: pointer;
 }
@@ -81,6 +73,20 @@
     align-items: center;
     justify-content: space-between;
     margin-top: 280px;
+}
+
+.sidebar__button{
+    font-size: 16px;
+    height: 100%;
+    background-color: rgb(255, 255, 255);
+    border-radius: 5px;
+    color: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 5px  ;
+    height: 40px;
+    cursor: pointer;
 }
 
 .sidebar__logout{

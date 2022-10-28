@@ -8,7 +8,6 @@ export interface IAppProps {
 }
 
 export default function App ({news}: IAppProps) {
-    console.log(news);
   return (
     <Layout selected='news'>
       <NewsView news={news.slice(0,8)}/>
@@ -19,6 +18,5 @@ export default function App ({news}: IAppProps) {
 
 export async function getStaticProps() {
     const news = await fetchNews()
-  
     return { props: { news} }
   }

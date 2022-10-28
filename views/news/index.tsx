@@ -17,7 +17,7 @@ export default function App ({news}: IAppProps) {
       <div className={styles['news--left']}>
         <img
             src={news[0].urlToImage}
-            width={1000}
+            width={950}
         />
         <Link href={news[0].url}><h2>{news[0].title}</h2></Link>
         <h3>{news[0].content}</h3>
@@ -28,7 +28,7 @@ export default function App ({news}: IAppProps) {
             <div className={styles['news__singleNews']}>
                 <img
                     src={news[i+1].urlToImage}
-                    width={400}
+                    width={450}
                 />
                 <Link href={news[i+1].url}><h2>{news[i+1].title.slice(0,48)}...</h2></Link> 
             </div>

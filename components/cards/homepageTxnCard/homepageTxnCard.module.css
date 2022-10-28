@@ -1,95 +1,84 @@
-
 .homepageTxnCard--right{
     margin-left: 20px;
 }
 
-
-.rightBar__transaction{
+.homepageTxnCard{
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin-bottom: 20px;
 }
 
-
-.rightBar__transaction div h2 {
+.homepageTxnCard div h2 {
     font-size: 20px;
     color: white;
     margin: 0;
 }
 
-.rightBar__transaction div h4 {
+.homepageTxnCard div h4 {
     font-size: 16px;
     color: #C5C5C5;
     margin: 0;
     font-weight: 400;
 }
 
-.rightBar__transaction h3 {
+.homepageTxnCard h3 {
     color: white;
 }
 
-
-.rightBar__icon{
-    background-color: #FF5E5B;
-    padding: 10px;
-    border-radius: 10px;
-}
-
-
-.transaction__index{
+.homepageTxncard__index{
     display: flex;
     align-items: center;
 }
 
-.transaction__index svg {
+.homepageTxncard__index svg {
     font-size: 50px;
 }
 
 
-.transactionCard__icon--grey{
+.icon--grey{
     background-color: rgb(116, 116, 116);
     font-size: 60px !important;
     padding: 5px;
     border-radius: 5px;
 }
 
-.transactionCard__icon--blue{
+.icon--blue{
     background-color: rgb(19, 149, 201);
     font-size: 60px !important;
     padding: 5px;
     border-radius: 5px;
 }
 
-.transactionCard__icon--red{
+.icon--red{
     background-color: rgb(230, 10, 10);
     font-size: 60px !important;
     padding: 5px;
     border-radius: 5px;
 }
 
-.transactionCard__icon--orange{
+.icon--orange{
     background-color: rgb(255, 208, 0);
     font-size: 60px !important;
     padding: 5px;
     border-radius: 5px;
 }
 
-.transactionCard__icon--burgundy{
+.icon--burgundy{
     background-color: #B8A390;
     font-size: 60px !important;
     padding: 5px;
     border-radius: 5px;
 }
 
-.transactionCard__icon--pink{
+.icon--pink{
     background-color: #EB96AA;
     font-size: 60px !important;
     padding: 5px;
     border-radius: 5px;
 }
 
-.transactionCard__icon--gold{
+.icon--gold{
     background-color: rgb(144, 146, 0);
     font-size: 60px !important;
     padding: 5px;
@@ -97,14 +86,14 @@
 }
 
 
-.transactionCard__icon--green{
+.icon--green{
     background-color: rgb(154, 240, 57);
     font-size: 60px !important;
     padding: 5px;
     border-radius: 5px;
 }
 
-.transactionCard__icon--yellow{
+.icon--yellow{
     background-color: rgb(234, 250, 144);
     font-size: 60px !important;
     padding: 5px;

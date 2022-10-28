@@ -2,9 +2,8 @@ import * as React from "react"
 import Image from "next/image"
 import styles from "./transferMoneyCard.module.css"
 
-export interface IAppProps {}
 
-export default function App(props: IAppProps) {
+export default function TransferMoneyCard() {
   return (
     <div className={styles["sendMoney"]}>
       <div className={styles["sendMoney__top"]}>

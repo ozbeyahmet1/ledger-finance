@@ -1,21 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import styles from './transactionCard.module.css'
-import {  HomeOutlined , AccountBalanceWalletOutlined , KeyboardArrowDownOutlined ,DirectionsBusFilledOutlined,
+import {  HomeOutlined , KeyboardArrowDownOutlined ,DirectionsBusFilledOutlined,
           FoodBankOutlined,HandymanOutlined,CheckroomOutlined,MedicalInformationOutlined,SpaOutlined,SchoolOutlined,
           TheaterComedyOutlined,KeyboardArrowUpOutlined,Verified,HistoryToggleOff} from '@mui/icons-material/';
 import { TransactionInterface } from '../../../interfaces/transaction.interface';
 
 
-
-export interface IAppProps {
+export interface ITransactionCardProps {
   transaction:TransactionInterface;
   location:string;
 }
 
-
-  export default function App ({transaction,location}: IAppProps) {
+  export default function TransactionCard({transaction,location}: ITransactionCardProps) {
   const [show,setShow]=useState(false);
-
 
   const categories_options = [
     { value: "Housing", icon: <HomeOutlined className={styles['transactionCard__icon--grey']}/>},
@@ -35,7 +32,6 @@ export interface IAppProps {
     categories_options.map((option)=>{
       if(option.value==transaction?.category){
         setIcon(option.icon)
-        console.log("asd")
       }
     })
   },[transaction])
@@ -55,7 +51,6 @@ export interface IAppProps {
             <h3 className={styles['transaction__value']}>₺{ transaction?.value}</h3>
             <div className={styles['transaction__type']}>
               <h2 >{ transaction?.type}</h2>
-              <div className={styles['transaction__type--resp']}><AccountBalanceWalletOutlined/></div>
             </div>
             <div className={styles['transacion__iconWrapper']}>
               {location=="blockchain" ? <Verified color="success" /> : <HistoryToggleOff/>} 

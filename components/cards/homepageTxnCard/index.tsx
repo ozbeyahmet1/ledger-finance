@@ -1,29 +1,27 @@
 import React from 'react'
 import styles from './homepageTxnCard.module.css'
-
 import { TransactionInterface } from '../../../interfaces/transaction.interface';
-import {  HomeOutlined , AccountBalanceWalletOutlined , KeyboardArrowDownOutlined ,DirectionsBusFilledOutlined,
-  FoodBankOutlined,HandymanOutlined,CheckroomOutlined,MedicalInformationOutlined,SpaOutlined,SchoolOutlined,
-  TheaterComedyOutlined,KeyboardArrowUpOutlined,Verified,HistoryToggleOff} from '@mui/icons-material/';
+import {  HomeOutlined,DirectionsBusFilledOutlined,FoodBankOutlined,HandymanOutlined,CheckroomOutlined,
+  MedicalInformationOutlined,SpaOutlined,SchoolOutlined,TheaterComedyOutlined} from '@mui/icons-material/';
 
-export interface ITransactionProps {
+export interface IHomepageTxnCardProps {
   transaction:TransactionInterface;
 }
 
-export default function Transaction({transaction}: ITransactionProps) {
+export default function HomepageTxnCard({transaction}: IHomepageTxnCardProps) {
 
   const categories_options = [
-    { value: "Housing", icon: <HomeOutlined className={styles['transactionCard__icon--grey']}/>},
-    { value: "Transportation", icon: <DirectionsBusFilledOutlined className={styles['transactionCard__icon--orange']}/> },
-    { value: "Food", icon:<FoodBankOutlined className={styles['transactionCard__icon--red']}/> },
-    { value: "Utilities", icon:<HandymanOutlined className={styles['transactionCard__icon--yellow']}/>},
-    { value: "Clothing", icon:<CheckroomOutlined className={styles['transactionCard__icon--burgundy']}/> },
-    { value: "Medical/Healthcare", icon: <MedicalInformationOutlined className={styles['transactionCard__icon--blue']}/>},
-    { value: "Personal", icon:<SpaOutlined className={styles['transactionCard__icon--green']}/> },
-    { value: "Education", icon: <SchoolOutlined className={styles['transactionCard__icon--pink']}/> },
-    { value: "Entertainment", icon:<TheaterComedyOutlined className={styles['transactionCard__icon--gold']}/> },
-    { value: "NoData", icon:<TheaterComedyOutlined className={styles['transactionCard__icon--gold']}/> },
-    { value: "HowItLooks", icon:<TheaterComedyOutlined className={styles['transactionCard__icon--gold']}/> },
+    { value: "Housing", icon: <HomeOutlined className={styles['icon--grey']}/>},
+    { value: "Transportation", icon: <DirectionsBusFilledOutlined className={styles['icon--orange']}/> },
+    { value: "Food", icon:<FoodBankOutlined className={styles['icon--red']}/> },
+    { value: "Utilities", icon:<HandymanOutlined className={styles['icon--yellow']}/>},
+    { value: "Clothing", icon:<CheckroomOutlined className={styles['icon--burgundy']}/> },
+    { value: "Medical/Healthcare", icon: <MedicalInformationOutlined className={styles['icon--blue']}/>},
+    { value: "Personal", icon:<SpaOutlined className={styles['icon--green']}/> },
+    { value: "Education", icon: <SchoolOutlined className={styles['icon--pink']}/> },
+    { value: "Entertainment", icon:<TheaterComedyOutlined className={styles['icon--gold']}/> },
+    { value: "NoData", icon:<TheaterComedyOutlined className={styles['icon--gold']}/> },
+    { value: "HowItLooks", icon:<TheaterComedyOutlined className={styles['icon--gold']}/> },
   ]
 
   const [icon,setIcon]=React.useState(<HomeOutlined/>)
@@ -32,14 +30,13 @@ export default function Transaction({transaction}: ITransactionProps) {
     categories_options.map((option)=>{
       if(option.value==transaction?.category){
         setIcon(option.icon)
-        console.log("asd")
       }
     })
   },[transaction])
 
   return (
-    <div className={styles["rightBar__transaction"]}>
-      <div className={styles["transaction__index"]}>
+    <div className={styles["homepageTxnCard"]}>
+      <div className={styles["homepageTxncard__index"]}>
         {icon}
         <div className={styles['homepageTxnCard--right']}>
           <h2>{transaction.headline}</h2>

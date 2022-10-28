@@ -51,26 +51,6 @@
     font-weight: 700;
 }
 
-.crypto__percantage--positiveResp{
-    font-size: 12px;
-    color: rgb(25, 170, 25);
-    font-weight: 700;
-    margin-left: 5px;
-}
-
-.crypto__percantage--negativeResp{
-    font-size: 12px;
-    color: rgb(231, 48, 48);
-    font-weight: 700;
-    margin-left: 5px;
-}
-.crypto__percantage--positiveResp{
-    display: none;
-}
-
-.crypto__percantage--negativeResp{
-   display: none;
-}
 
 .crypto__stats{
     display: none;
