@@ -2,15 +2,15 @@ import { ethers } from "hardhat";
 import fs from "fs";
 
 async function main() {
-  const LedgerToDo = await ethers.getContractFactory("LedgerToDo");
-  const ledgerToDo = await LedgerToDo.deploy();
+  const LedgerContract = await ethers.getContractFactory("LedgerContract");
+  const ledgerContract = await LedgerContract.deploy();
 
-  await ledgerToDo.deployed();
+  await ledgerContract.deployed();
 
-  console.log("LedgerToDo deployed to:", ledgerToDo.address);
+  console.log("LedgerContract deployed to:", ledgerContract.address);
   fs.writeFileSync(
     "./config.ts",
-    `export const textContractAddress = "${ledgerToDo.address}"`
+    `export const ledgerContractAddress = "${ledgerContract.address}"`
   );
 }
 

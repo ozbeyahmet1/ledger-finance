@@ -74,51 +74,18 @@
     font-size: 60px;
 }
 
-
-/* Single Transaction module */
-
-
-.rightBar__transaction{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 20px;
-}
-
-.rightBar__transaction div {
-    margin-left: 20px;
-}
-
-.rightBar__transaction div h2 {
-    font-size: 20px;
-    color: white;
-    margin: 0;
-}
-
-.rightBar__transaction div h4 {
+.rightBar__noRecord h3{
     font-size: 16px;
-    color: #C5C5C5;
-    margin: 0;
     font-weight: 400;
 }
 
-.rightBar__transaction h3 {
-    color: white;
+.rightBar__noRecord h3 u {
+    cursor: pointer;
+    transition: all 0.4s;
 }
 
-
-.rightBar__icon{
-    background-color: #FF5E5B;
-    padding: 10px;
-    border-radius: 10px;
+.rightBar__noRecord h3 u:hover{
+    color: rgb(33, 134, 216);
 }
 
-
-.transaction__index{
-    display: flex;
-    align-items: center;
-}
-
-.transaction__index svg {
-    font-size: 50px;
-}
+/* Single Transaction module */

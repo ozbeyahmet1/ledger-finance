@@ -1,55 +1,92 @@
 import React from 'react'
 import styles from './rightbar.module.css'
 import Image from 'next/image'
-// import DrawerComponent from '../../../UI/Drawer'
-import Link from 'next/link'
-
+import Web3Modal from 'web3modal';
+import { contractAbi,contractAddress } from '../../../constants';
+import HomepageTxnCard from '../../cards/homepageTxnCard'
 import Person2OutlinedIcon from '@mui/icons-material/Person2Outlined';
-import AccountBalanceWalletOutlined from '@mui/icons-material/AccountBalanceWalletOutlined';
-
-
+import { ethers } from 'ethers';
+import { TransactionInterface } from '../../../interfaces/transaction.interface';
+import Link from 'next/link';
 
 export interface ITransactionProps {
-
-}
-
-export function Transaction(props: ITransactionProps) {
-  return (
-    <div className={styles["rightBar__transaction"]}>
-      <div className={styles["transaction__index"]}>
-        <AccountBalanceWalletOutlined  className={styles["rightBar__icon"]} />
-        <div>
-          <h2>Apple Device</h2>
-          <h4>11 Feb, 4:31 PM</h4>
-        </div>
-      </div>
-      <h3>$ 365.98</h3>
-    </div>
-  );
+  transaction:TransactionInterface;
 }
 
 function Index() {
+  const current = new Date();
+  const [tasks,setTasks]=React.useState<any[]>([])
+  const getAllTransactions = async() => {
+    try {  
+      const web3modal = new Web3Modal();
+      const connection = await web3modal.connect();
+      const provider = new ethers.providers.Web3Provider(connection);
+      const signer = provider.getSigner();
+        const TaskContract = new ethers.Contract(
+          contractAddress,
+          contractAbi,
+          signer
+        )
+        let allTasks = await TaskContract.fetchMyTransactions();
+        setTasks(allTasks);
+    } catch(error) {
+      console.log(error);
+    }
+  }
 
+  React.useEffect(() => {
+    getAllTransactions();
+  },[]);
+
+
+  console.log(tasks)
+  const jsonStrings = tasks.map(item=>JSON.parse(item.taskText))
+  console.log(jsonStrings)
+  
+  
+  function sliceIntoChunks(arr:any) {
+    const res = [];
+    for (let i = 0; i < arr.length; i++) {
+        for (let index = 0; index < arr[i].length; index++) {
+          res.push(arr[i][index]);
+        }
+  
+    }
+    return res;
+  }
+  const concatedJsonStrings = sliceIntoChunks(jsonStrings)
   return (
     <div className={styles.rightBar}>
       <div className={styles['rightBar__user']}>
-        <Link href="/profile">
-          <div className={styles['rightBar__userIcon']}> 
-            <Person2OutlinedIcon/>
-          </div>
-        </Link>
-        <div className={styles['rightBar__index']}>
-          <h2>Ahmet Özbey</h2>
-          {/* {auth=="login" ? <h3>Verified Accounts🟢</h3> : <h3>Unverified Accounts🔴</h3>}  */}
+        <div className={styles['rightBar__userIcon']}> 
+          <Person2OutlinedIcon/>
         </div>
-        {/* <DrawerComponent /> */}
+        <div className={styles['rightBar__index']}>
+          <h2>Ahmet Ozbey</h2>
+          <h3>Verified Account🟢</h3>
+        </div>
       </div>
       <div>
         <h3 className={styles['rightBar__headline']}>Transactions</h3>
-        <Transaction/>
-        <Transaction/>
-        <Transaction/>
-        <Transaction/>
+          {tasks && concatedJsonStrings.map((element:TransactionInterface,id:number)=>{
+            return <HomepageTxnCard transaction={element}/> })}
+
+          {concatedJsonStrings.length==0 && 
+            <>
+              <HomepageTxnCard 
+                transaction={{headline:"How it looks?",date:current,value:500,category:"Clothing",type:"income",description:""}}/> 
+                <HomepageTxnCard 
+                transaction={{headline:"How it looks?",date:current,value:500,category:"Education",type:"income",description:""}}/> 
+                <HomepageTxnCard 
+                transaction={{headline:"How it looks?",date:current,value:500,category:"Food",type:"income",description:""}}/> 
+                <HomepageTxnCard 
+                transaction={{headline:"How it looks?",date:current,value:500,category:"Medical/Healthcare",type:"income",description:""}}/> 
+                <div className={styles['rightBar__noRecord']}>
+                <h3>Your transactions will look like the examples above. <Link href="/wallet"><u>Click to add a transaction.</u></Link></h3>
+                </div>
+                </>
+              }
+          
       </div>
       <div  className={styles['rightBar__image']}>
         <Image 
