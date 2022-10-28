@@ -4,7 +4,7 @@ import { WagmiConfig, createClient, configureChains, chain } from "wagmi"
 import { publicProvider } from "wagmi/providers/public"
 import { connectorsForWallets, wallet } from "@rainbow-me/rainbowkit"
 import { RainbowKitProvider } from "@rainbow-me/rainbowkit"
-import "./styles.css"
+import "../styles/styles.css"
 import "@rainbow-me/rainbowkit/styles.css";
 
 export const { chains, provider } = configureChains(
