@@ -2,5 +2,4 @@
 /* tslint:disable */
 /* eslint-disable */
 export type { LedgerContract } from "./LedgerContract";
-export * as factories from "./factories";
-export { LedgerContract__factory } from "./factories/LedgerContract__factory";
+export type { ToDoDeneme } from "./ToDoDeneme";

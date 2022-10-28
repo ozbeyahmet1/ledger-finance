@@ -1,5 +1,5 @@
 export interface TransactionInterface {
-    date:string;
+    date:Date;
     headline:string;
     value:number;
     type:string;

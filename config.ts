@@ -1,1 +1,1 @@
-export const textContractAddress = "0xB496f4F8d3b5b6B79a5165c555bE47FD2B2e50c9"
+export const ledgerContractAddress = "0xa5674D7305453a8EfB731f4ACb7e6Cea9C8631DD"

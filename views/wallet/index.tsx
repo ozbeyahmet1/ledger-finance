@@ -1,237 +1,297 @@
-import * as React from "react"
+import { ethers } from 'ethers';
+import * as React from 'react';
+import { contractAbi,contractAddress } from '../../constants';
+import styles from './wallet.module.css'
+import Web3Modal from 'web3modal';
 import TransactionCard from "../../components/cards/transactionCard"
-import styles from "./wallet.module.css"
 import BalanceCard from '../../components/cards/balanceCard'
-import {Add,CloseOutlined,AccessTimeOutlined} from '@mui/icons-material';
-import DatePicker from '../../components/ui/datepicker'
-import Inputs from '../../components/ui/input'
+import {Add,CloseOutlined,AccessTimeOutlined,ErrorOutline} from '@mui/icons-material';
 import { TransactionInterface } from "../../interfaces/transaction.interface";
+import { Tooltip } from '@mui/material';
 
-export interface IAppProps {}
+export interface IAppProps {
+}
 
-export default function App(props: IAppProps) {
-    const [clicked,setClicked]=React.useState(0);
+export default function App (props: IAppProps) {
+    const [tasks,setTasks]=React.useState<any[]>([])
+    const [input, setInput]=React.useState('');
+    const [transaction, setTransaction] = React.useState("");
+    const [transactions, setTransactions] = React.useState<any[]>([]);
+    const current = new Date().toLocaleString();
+
+
+    //Adding stashing transactions to local storage
+    const AddTxnToLocal = (e:any) => {
+      const newTransaction = {   
+        type: formInfo.type,
+        category:formInfo.category,
+        date: formInfo.date,
+        description: formInfo.description,
+        headline: formInfo.headline,
+        value: formInfo.value,
+        location:formInfo.location,
+      };
+      setTransactions([...transactions, newTransaction]);
+      localStorage.setItem("transactions", JSON.stringify([...transactions, newTransaction]));
+      setTransaction("");
+  };
+
+    //Getting stashing transactions from local storage
+    const localTxns = localStorage.getItem("transactions") || "";
+    const localTxnsJson= localTxns && JSON.parse(localTxns);
+    React.useEffect(()=>{
+        if(localStorage.getItem("transactions")){
+            const storedList = JSON.parse(localTxns);
+            setTransactions(storedList);
+        }
+    },[])
+
+    const ClearTxnInLocal=()=>{
+      setTransactions([]);
+      localStorage.removeItem("transactions");
+  }
+
+    //Adding stashing transactions in local storage to blockchain
+    const AddTxnToBlockchain = async ()=>{    
+      let task = {
+        'taskText': JSON.stringify(transactions),
+      };
+      
+      try {
+        const web3modal = new Web3Modal();
+        const connection = await web3modal.connect();
+        const provider = new ethers.providers.Web3Provider(connection);
+        const signer = provider.getSigner();
+          const TaskContract = new ethers.Contract(
+            contractAddress,
+            contractAbi,
+            signer
+          )
+          TaskContract.addTransaction(task.taskText)
+      } catch(error) {
+        console.log("Error submitting new Tweet", error);
+      }
+      setInput('')
+    };
+
+    //Getting transactions from blockchain
+    const getAllTasks = async() => {
+    try {  
+      const web3modal = new Web3Modal();
+      const connection = await web3modal.connect();
+      const provider = new ethers.providers.Web3Provider(connection);
+      const signer = provider.getSigner();
+        const TaskContract = new ethers.Contract(
+          contractAddress,
+          contractAbi,
+          signer
+        )
+        let allTasks = await TaskContract.fetchMyTransactions();
+        setTasks(allTasks);
+    } catch(error) {
+      console.log(error);
+    }
+  }
+    
+  React.useEffect(() => {
+    getAllTasks()
+  },[]);
+
+
+
     const [open, setOpen] = React.useState(false);
     const [value, setValue] = React.useState(new Date());
 
     const type_options = [
-      { value: "Income", text: "Income" },
-      { value: "Outcome", text: "Outcome" },
+      { value: "Income" },
+      { value: "Outcome" },
     ];
-    const style = {
-      position: 'absolute' as 'absolute',
-      top: '50%',
-      left: '50%',
-      transform: 'translate(-50%, -50%)',
-      width: 400,
-      bgcolor: 'background.paper',
-      border: '2px solid #000',
-      boxShadow: 24,
-      p: 4,
-    };
-    
+
     const categories_options = [
-      { value: "Housing", text: "Housing" },
-      { value: "Transportation", text: "Transportation" },
-      { value: "Food", text: "Food" },
-      { value: "Utilities", text: "Utilities" },
-      { value: "Clothing", text: "Clothing" },
-      { value: "Medical/Healthcare", text: "Medical/Healthcare" },
-      { value: "Personal", text: "Personal" },
-      { value: "Education", text: "Education" },
-      { value: "Entertainment", text: "Entertainment" },
-    ]
-    console.log("value",value)
+        { value: "Housing"},
+        { value: "Transportation"},
+        { value: "Food" },
+        { value: "Utilities" },
+        { value: "Clothing"},
+        { value: "Medical/Healthcare" },
+        { value: "Personal"},
+        { value: "Education"},
+        { value: "Entertainment"},
+      ]
+  
+      const [formInfo, setFormInfo] = React.useState({
+        type: "Income",
+        category:"Housing",
+        date: current,
+        description: "",
+        headline: "",
+        value: "",
+        location:"localStorage",
+      });
+  
+  
+  const PushToBlockchain = () => {
+    setFormInfo({ ...formInfo,location: "blockchain" })
+    AddTxnToBlockchain().then(ClearTxnInLocal)
+  }
+  
+  console.log(tasks)
+  const jsonStrings = tasks.map(item=>JSON.parse(item.taskText))
+  console.log(jsonStrings)
 
-    const [formInfo, setFormInfo] = React.useState({
-      type: "Income",
-      category:"Housing",
-      date: "",
-      description: "",
-      headline: "",
-      value: "",
-    });
-
-const [transaction, setTransaction] = React.useState("");
-const [transactions, setTransactions] = React.useState<any[]>([]);
-
-const localTxns = localStorage.getItem("transactions") || "";
-const localTxnsJson= localTxns && JSON.parse(localTxns);
-React.useEffect(()=>{
-    if(localStorage.getItem("transactions")){
-        const storedList = JSON.parse(localTxns);
-        setTransactions(storedList);
+ 
+  function sliceIntoChunks(arr:any) {
+    const res = [];
+    for (let i = 0; i < arr.length; i++) {
+        for (let index = 0; index < arr[i].length; index++) {
+          res.push(arr[i][index]);
+        }
+  
     }
-},[])
-
-const sendPost = (e:any) => {
-    const newTransaction = {   
-      type: formInfo.type,
-      category:formInfo.category,
-      date: formInfo.date,
-      description: formInfo.description,
-      headline: formInfo.headline,
-      value: formInfo.value,
-    };
-    setTransactions([...transactions, newTransaction]);
-    localStorage.setItem("transactions", JSON.stringify([...transactions, newTransaction]));
-    setTransaction("");
-};
-
-const handleDelete = (transaction:any)=>{
-    const deleted = transactions.filter((t:any)=>t.id !== transaction.id);
-    setTransactions(deleted);
-    localStorage.setItem("transactions", JSON.stringify(deleted))
+    return res;
 }
-
-const handleClear=()=>{
-    setTransactions([]);
-    localStorage.removeItem("transactions");
-}
+const concatedJsonStrings = sliceIntoChunks(jsonStrings)
 
   return (
+
     <div className={styles["wallet"]}>
 
-      <div className={styles["wallet__content"]}>
+    <div className={styles["wallet__content"]}>
 
-        {/*Left side of wallet**/}
-        <div className={styles["wallet--left"]}>
-          <BalanceCard background="purple" />
-          <div
-            className={styles["wallet__addNewTransaction"]}
-            onClick={()=>setOpen(true)}
-          >
-            <Add />
-            <h3>Add New Transaction </h3>
-          </div>
-        </div>
-        
-        {/*Right side of wallet*/} {/*Approve stashing transactions*/}
-        <div className={styles["wallet--right"]}>
-          <div className={styles["wallet__filters"]}>
-            <h3>Sort By : Asc</h3>
-            <h3>Sort By : Asc</h3>
-            <h3>Sort By : Asc</h3>
-            <h3>Sort By : Asc</h3>
-          </div>
-          <div className={styles["wallet__transactionWrapper"]}>
-            <h4>Stashing Transactions</h4>
-
-                  {localTxns ? localTxnsJson.map((element:TransactionInterface,id:number)=>{
-                    return <TransactionCard
-                    date={element.headline}
-                    headline={element.headline}
-                    value={300}
-                    type={element.type}
-                    description={element.description}
-                    category={element.category}
-                    key={id}
-                />
-                  }): <h2>No transaction recorded</h2>}
-             
-            <h3 className={styles["wallet__pushButton"]} onClick={()=>handleClear()}>Push to Blockchain</h3>
-          </div>
+      {/*Left side of wallet**/}
+      <div className={styles["wallet--left"]}>
+        <BalanceCard background="purple" />
+        <div
+          className={styles["wallet__addNewTransaction"]}
+          onClick={()=>setOpen(true)}
+        >
+          <Add />
+          <h3>Add New Transaction </h3>
         </div>
       </div>
-
-      {/*Modal Starts**/}
-      {open && 
-          <div
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
-            className={styles['walletModal']}
-          >
-          <>
-          <div className={styles["walletModal--top"]}>
-              <h2>Add New Transaction</h2>
-              <CloseOutlined
-                onClick={()=>setOpen(false)}
-                className={styles["walletModal__icon"]}
-              />
-            </div>
-            <div className={styles["walletModal--bottom"]}>
-              {/* <DatePicker date={value} setDate={setValue}/> */}
-             
-              <div className={styles["walletModal--right"]}>
-
-                <div className={styles["walletModal__time"]}>
-                  <AccessTimeOutlined/>
-                  <h4>16:59:03 21/11/2021</h4>
-                </div>
-
-                <div className={styles["selectWrapper"]}>
-                  <select
-                    value={formInfo.type}
-                    onChange={(event: any)=>setFormInfo({ ...formInfo,type: event?.target?.value })}
-                    className={styles[`select`]}
-                  >
-                    {type_options.map((option) => {
-                      return <option key={option.value} value={option.value}>
-                      {option.text} 
-                    </option>
-                    })}
-                  </select>
-                </div>
-
-                <div className={styles["selectWrapper"]}>
-                  <select
-                    value={formInfo.category}
-                    onChange={(event: any)=>setFormInfo({ ...formInfo,category: event?.target?.value })}
-                    className={styles[`select`]}
-                  >
-                    {categories_options.map((option) => {
-                      return <option key={option.value} value={option.value}>
-                      {option.text} 
-                    </option>
-                    })}
-                  </select>
-                </div>
-                
-                {formInfo.category}
-                {/* <Inputs 
-                  func={(e:any) => setFormInfo({ ...formInfo,headline: e?.target?.value })}
-                  value={formInfo.headline}
-                  placeholder="Please enter the headline"
-                  disabled={false}
-                  inputClass=""
-                /> */}
-  
-
-              <div className={styles['profile__input']}>
-                  <input
-                    type="text"
-                    placeholder="value"
-                    onChange={(e:any) => setFormInfo({ ...formInfo,value: e?.target?.value })}
-                    value={formInfo.value}
-                  />
-                </div>
-
-                <div className={styles['profile__input']}>
-                  <input
-                    type="text"
-                    placeholder="description"
-                    onChange={(e:any) => setFormInfo({ ...formInfo,description: e?.target?.value })}
-                    value={formInfo.description}
-                  />
-                </div>
-
-                <div className={styles['profile__input']}>
-                  <input
-                    type="text"
-                    placeholder="headline"
-                    onChange={(e:any) => setFormInfo({ ...formInfo,headline: e?.target?.value })}
-                    value={formInfo.headline}
-                  />
-                </div>
-
-                <h4 className={styles["model__button"]} onClick={()=>sendPost(formInfo)}>Post</h4> 
+      
+      {/*Right side of wallet*/} {/*Approve stashing transactions*/}
+      <div className={styles["wallet--right"]}>
+        <div className={styles["wallet__filters"]}>
+          <h3>Sort By : Asc</h3>
+          <h3>Sort By : Asc</h3>
+          <h3>Sort By : Asc</h3>
+          <h3>Sort By : Asc</h3>
+        </div>
+        <div className={styles["wallet__transactionWrapper"]}>
+          <div className={styles['wallet__headline']}>
+            <h4>Stashing Transactions</h4>
+            <Tooltip title={
+              <div>
+                <h2>Why do we stash transactions?</h2>
+                <h4>Every transaction to be made on the blockchain will cause a cost. For this reason, we send a maximum of 10 transactions to the blockchain in bundles.</h4>
               </div>
-            </div>
-          </> 
+            } >
+              <ErrorOutline/>
+            </Tooltip>
           </div>
-        }
-      {/*Modal Ends**/}
-
+            {localTxns ? localTxnsJson.map((element:TransactionInterface,id:number)=>{
+              return <TransactionCard
+              location='localStorage'
+                transaction={element}
+            />
+            }): <h2>No transaction recorded</h2>}
+           
+          <h3 className={styles["wallet__pushButton"]} onClick={()=>PushToBlockchain()}>Push to Blockchain</h3>
+        </div>
+        <div>
+        {tasks ? concatedJsonStrings.map((element:TransactionInterface,id:number)=>{
+                    return <TransactionCard
+                    location='blockchain'
+                    transaction={element}
+                />
+                  }): <h2>No transaction recorded</h2> }
+        </div>
+      </div>
     </div>
-  )
+
+    {/*Modal Starts**/}
+    {open && 
+        <div className={styles['wallet__modal']}>
+        <>
+        <div className={styles["wallet--top"]}>
+            <h2>Add New Transaction</h2>
+            <CloseOutlined
+              onClick={()=>setOpen(false)}
+              className={styles["wallet__icon"]}
+            />
+          </div>
+          <div className={styles["wallet--bottom"]}>         
+            <div className={styles["wallet--right"]}>
+              <div className={styles["wallet__time"]}>
+                <AccessTimeOutlined/>
+                <h4>{current}</h4>
+              </div>
+
+              <div className={styles["wallet__selectWrapper"]}>
+                <select
+                  value={formInfo.type}
+                  onChange={(event: any)=>setFormInfo({ ...formInfo,type: event?.target?.value })}
+                  className={styles[`wallet__select`]}
+                >
+                  {type_options.map((option) => {
+                    return <option key={option.value} value={option.value}>
+                    {option.value} 
+                  </option>
+                  })}
+                </select>
+              </div>
+
+              <div className={styles["wallet__selectWrapper"]}>
+                <select
+                  value={formInfo.category}
+                  onChange={(event: any)=>setFormInfo({ ...formInfo,category: event?.target?.value })}
+                  className={styles[`wallet__select`]}
+                >
+                  {categories_options.map((option) => {
+                    return <option key={option.value} value={option.value}>
+                    {option.value} 
+                  </option>
+                  })}
+                </select>
+              </div>
+
+              <div className={styles['wallet__input']}>
+                <input
+                  type="number"
+                  placeholder="Value"
+                  onChange={(e:any) => setFormInfo({ ...formInfo,value: e?.target?.value })}
+                  value={formInfo.value}
+                  min={0}
+                />
+              </div>
+
+              <div className={styles['wallet__input']}>
+                <input
+                  type="text"
+                  placeholder="description"
+                  onChange={(e:any) => setFormInfo({ ...formInfo,description: e?.target?.value })}
+                  value={formInfo.description}
+                />
+              </div>
+
+              <div className={styles['wallet__input']}>
+                <input
+                  type="text"
+                  placeholder="headline"
+                  onChange={(e:any) => setFormInfo({ ...formInfo,headline: e?.target?.value })}
+                  value={formInfo.headline}
+                />
+              </div>
+             
+              <h4 className={styles["wallet__button"]} onClick={()=>AddTxnToLocal(formInfo)}>Post</h4> 
+            </div>
+          </div>
+        </> 
+        </div>
+      }
+    {/*Modal Ends**/}
+
+  </div>
+  );
 }

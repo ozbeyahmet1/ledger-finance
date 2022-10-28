@@ -2,20 +2,18 @@ import React, { useEffect, useState } from 'react'
 import styles from './transactionCard.module.css'
 import {  HomeOutlined , AccountBalanceWalletOutlined , KeyboardArrowDownOutlined ,DirectionsBusFilledOutlined,
           FoodBankOutlined,HandymanOutlined,CheckroomOutlined,MedicalInformationOutlined,SpaOutlined,SchoolOutlined,
-          TheaterComedyOutlined,KeyboardArrowUpOutlined} from '@mui/icons-material/';
+          TheaterComedyOutlined,KeyboardArrowUpOutlined,Verified,HistoryToggleOff} from '@mui/icons-material/';
+import { TransactionInterface } from '../../../interfaces/transaction.interface';
+
+
 
 export interface IAppProps {
-    date:string;
-    headline:string;
-    value:number;
-    type:string;
-    description:string;
-    category:string;
+  transaction:TransactionInterface;
+  location:string;
 }
 
 
-
-  export default function App (props: IAppProps) {
+  export default function App ({transaction,location}: IAppProps) {
   const [show,setShow]=useState(false);
 
 
@@ -35,12 +33,12 @@ export interface IAppProps {
 
   useEffect(()=>{
     categories_options.map((option)=>{
-      if(option.value==props.category){
+      if(option.value==transaction?.category){
         setIcon(option.icon)
         console.log("asd")
       }
     })
-  },[props])
+  },[transaction])
 
   return (
     <div className={styles['transactionCard']}>
@@ -48,40 +46,40 @@ export interface IAppProps {
           <div className={styles['transactionCard--left']}>
             {icon}
             <div className={styles['transaction__headline']}>
-              <h2>{props.headline}</h2>
-              <h5>{props.date}</h5>
+              <h2>{ transaction?.headline}</h2>
+              <h5>{ transaction?.date}</h5>
             </div>
           </div>
           <div>
           </div>
-            <h3 className={styles['transaction__value']}>₺{props.value}</h3>
+            <h3 className={styles['transaction__value']}>₺{ transaction?.value}</h3>
             <div className={styles['transaction__type']}>
-              <h2 >{props.type}</h2>
+              <h2 >{ transaction?.type}</h2>
               <div className={styles['transaction__type--resp']}><AccountBalanceWalletOutlined/></div>
             </div>
             <div className={styles['transacion__iconWrapper']}>
-              <HomeOutlined/>
+              {location=="blockchain" ? <Verified color="success" /> : <HistoryToggleOff/>} 
             </div>
         </div>
      
         <div className={styles['transaction__description']}>
-          {(show && props.description!=="")  && 
+          {(show &&  transaction.description!=="")  && 
           <div onClick={()=>setShow(prevState=>!prevState)} className={styles['transaction__descriptionIcon']}>
             <h2>Description</h2>
             <KeyboardArrowUpOutlined />
           </div>
           }
   
-          {(!show && props.description!=="")  && 
+          {(!show &&  transaction?.description!=="")  && 
           <div onClick={()=>setShow(prevState=>!prevState)} className={styles['transaction__descriptionIcon']}>
             <h2>Description</h2>
             <KeyboardArrowDownOutlined/>
           </div>
           }
 
-          {show ? <h3>{props.description}</h3> :  ""}
+          {show ? <h3>{ transaction?.description}</h3> :  ""}
 
-          {props.description=="" && <h3>No description</h3>}
+          { transaction?.description=="" && <h3>No description</h3>}
         </div>
         
     </div>

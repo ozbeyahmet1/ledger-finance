@@ -2,3 +2,4 @@
 /* tslint:disable */
 /* eslint-disable */
 export { LedgerContract__factory } from "./LedgerContract__factory";
+export { ToDoDeneme__factory } from "./ToDoDeneme__factory";
