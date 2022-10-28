@@ -40,7 +40,7 @@ function Index() {
 
 
   console.log(tasks)
-  const jsonStrings = tasks.map(item=>JSON.parse(item.taskText))
+  const jsonStrings = tasks.slice(0,4).map(item=>JSON?.parse(item.data))
   console.log(jsonStrings)
   
   

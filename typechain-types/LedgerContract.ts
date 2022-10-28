@@ -31,13 +31,13 @@ export declare namespace LedgerContract {
   export type TransactionStruct = {
     id: PromiseOrValue<BigNumberish>;
     username: PromiseOrValue<string>;
-    taskText: PromiseOrValue<string>;
+    data: PromiseOrValue<string>;
   };
 
   export type TransactionStructOutput = [BigNumber, string, string] & {
     id: BigNumber;
     username: string;
-    taskText: string;
+    data: string;
   };
 }
 
@@ -115,7 +115,7 @@ export interface LedgerContract extends BaseContract {
 
   functions: {
     addTransaction(
-      taskText: PromiseOrValue<string>,
+      data: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -125,7 +125,7 @@ export interface LedgerContract extends BaseContract {
   };
 
   addTransaction(
-    taskText: PromiseOrValue<string>,
+    data: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -135,7 +135,7 @@ export interface LedgerContract extends BaseContract {
 
   callStatic: {
     addTransaction(
-      taskText: PromiseOrValue<string>,
+      data: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -154,7 +154,7 @@ export interface LedgerContract extends BaseContract {
 
   estimateGas: {
     addTransaction(
-      taskText: PromiseOrValue<string>,
+      data: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -163,7 +163,7 @@ export interface LedgerContract extends BaseContract {
 
   populateTransaction: {
     addTransaction(
-      taskText: PromiseOrValue<string>,
+      data: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 

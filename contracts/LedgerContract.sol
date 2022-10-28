@@ -9,7 +9,7 @@ contract LedgerContract{
     struct Transaction {
         uint id;
         address username;
-        string taskText;
+        string data;
     }
 
     Transaction[] private tasks;
@@ -18,9 +18,9 @@ contract LedgerContract{
     mapping(uint256 => address) taskToOwner;
 
     // Add Transaction Function
-    function addTransaction(string memory taskText) external {
+    function addTransaction(string memory data) external {
         uint taskId = tasks.length;
-        tasks.push(Transaction(taskId, msg.sender, taskText));
+        tasks.push(Transaction(taskId, msg.sender, data));
         taskToOwner[taskId] = msg.sender;
         emit  AddTransaction(msg.sender, taskId);
     }

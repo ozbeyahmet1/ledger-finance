@@ -1,14 +1,15 @@
 import { ethers } from 'ethers';
 import * as React from 'react';
 import { contractAbi,contractAddress } from '../../constants';
-import styles from './assets.module.css'
+import styles from '../wallet/wallet.module.css';
 import Web3Modal from 'web3modal';
 import TransactionCard from "../../components/cards/transactionCard"
 import BalanceCard from '../../components/cards/balanceCard'
-import {Add,CloseOutlined,AccessTimeOutlined,ErrorOutline} from '@mui/icons-material';
+import {Add,CloseOutlined,AccessTimeOutlined,ErrorOutline,Close, ModeStandby} from '@mui/icons-material';
 import { TransactionInterface } from "../../interfaces/transaction.interface";
 import { Tooltip } from '@mui/material';
-
+import Link from 'next/link';
+import { OrderByNameAscending } from '../../helpers/orderingUtils';
 export interface IAppProps {
 }
 
@@ -18,8 +19,18 @@ export default function App (props: IAppProps) {
     const [transaction, setTransaction] = React.useState("");
     const [transactions, setTransactions] = React.useState<any[]>([]);
     const current = new Date().toLocaleString();
-
-
+    const [hash,setHash]=React.useState("");
+    const [open, setOpen] = React.useState(false)
+    const [formInfo, setFormInfo] = React.useState({
+      type: "Income",
+      category:"Housing",
+      date: current,
+      description: "",
+      headline: "",
+      value: "",
+      location:"localStorage",
+    });
+    const [statue,SetStatue]=React.useState("initial")
     //Adding stashing transactions to local storage
     const AddTxnToLocal = (e:any) => {
       const newTransaction = {   
@@ -34,6 +45,16 @@ export default function App (props: IAppProps) {
       setTransactions([...transactions, newTransaction]);
       localStorage.setItem("transactions", JSON.stringify([...transactions, newTransaction]));
       setTransaction("");
+      setOpen(false);
+      setFormInfo({
+        type: "",
+        category:"",
+        date: current,
+        description: "",
+        headline: "",
+        value: "",
+        location:"",
+      });
   };
 
     //Getting stashing transactions from local storage
@@ -54,7 +75,7 @@ export default function App (props: IAppProps) {
     //Adding stashing transactions in local storage to blockchain
     const AddTxnToBlockchain = async ()=>{    
       let task = {
-        'taskText': JSON.stringify(transactions),
+        'data': JSON.stringify(transactions),
       };
       
       try {
@@ -66,12 +87,19 @@ export default function App (props: IAppProps) {
             contractAddress,
             contractAbi,
             signer
-          )
-          TaskContract.addTransaction(task.taskText)
+        )
+          
+        let transaction = await TaskContract.addTransaction(task.data);
+        ClearTxnInLocal();
+        SetStatue("waiting")
+        const txn = await transaction.wait();
+        setHash(txn.transactionHash);
+        SetStatue("completed")
+      
       } catch(error) {
-        console.log("Error submitting new Tweet", error);
+        console.log("Error in AddTxnToBlockchain Function", error);
       }
-      setInput('')
+     
     };
 
     //Getting transactions from blockchain
@@ -95,12 +123,8 @@ export default function App (props: IAppProps) {
     
   React.useEffect(() => {
     getAllTasks()
-  },[]);
+  },[hash]);
 
-
-
-    const [open, setOpen] = React.useState(false);
-    const [value, setValue] = React.useState(new Date());
 
     const type_options = [
       { value: "Income" },
@@ -119,27 +143,16 @@ export default function App (props: IAppProps) {
         { value: "Entertainment"},
       ]
   
-      const [formInfo, setFormInfo] = React.useState({
-        type: "Income",
-        category:"Housing",
-        date: current,
-        description: "",
-        headline: "",
-        value: "",
-        location:"localStorage",
-      });
+    
   
   
   const PushToBlockchain = () => {
     setFormInfo({ ...formInfo,location: "blockchain" })
     AddTxnToBlockchain().then(ClearTxnInLocal)
   }
-  
-  console.log(tasks)
-  const jsonStrings = tasks.map(item=>JSON.parse(item.taskText))
-  console.log(jsonStrings)
 
- 
+  const jsonStrings = tasks.map(item=>JSON.parse(item.data))
+
   function sliceIntoChunks(arr:any) {
     const res = [];
     for (let i = 0; i < arr.length; i++) {
@@ -160,7 +173,7 @@ const concatedJsonStrings = sliceIntoChunks(jsonStrings)
 
       {/*Left side of wallet**/}
       <div className={styles["wallet--left"]}>
-        <BalanceCard background="red" />
+        <BalanceCard background="red" value={825}/>
         <div
           className={styles["wallet__addNewTransaction"]}
           onClick={()=>setOpen(true)}
@@ -177,7 +190,10 @@ const concatedJsonStrings = sliceIntoChunks(jsonStrings)
           <h3>Sort By : Asc</h3>
           <h3>Sort By : Asc</h3>
           <h3>Sort By : Asc</h3>
+          
         </div>
+
+      {statue=="initial" &&
         <div className={styles["wallet__transactionWrapper"]}>
           <div className={styles['wallet__headline']}>
             <h4>Stashing Transactions</h4>
@@ -196,10 +212,32 @@ const concatedJsonStrings = sliceIntoChunks(jsonStrings)
                 transaction={element}
             />
             }): <h2>No transaction recorded</h2>}
-           
           <h3 className={styles["wallet__pushButton"]} onClick={()=>PushToBlockchain()}>Push to Blockchain</h3>
         </div>
-        <div>
+        }
+
+      {statue=="waiting" && 
+        <div className={styles["wallet__transaction"]}>
+            <span className={styles['wallet__loading']}></span>
+          <h2>Adding to blockchain. Please wait</h2>
+        </div>
+      }
+
+      {statue=="completed" && 
+        <div className={styles["wallet__success"]}>
+          <Close onClick={()=>SetStatue("initial")} fontSize="large" style={{cursor:"pointer"}}/>
+          {hash}
+          <h2>Successfull</h2>
+          <Link href={`https://mumbai.polygonscan.com/tx/${hash}`}>
+            <a target='_blank'>
+              <h3>View on PolygonScan</h3>
+            </a>
+          </Link> 
+        </div>
+      }
+      
+      <div>
+      
         {tasks ? concatedJsonStrings.map((element:TransactionInterface,id:number)=>{
                     return <TransactionCard
                     location='blockchain'

@@ -48,10 +48,12 @@ export interface ITransactionCardProps {
           </div>
           <div>
           </div>
-            <h3 className={styles['transaction__value']}>₺{ transaction?.value}</h3>
-            <div className={styles['transaction__type']}>
+            <h3 className={styles['transaction__value']}>${ transaction?.value}</h3>
+            
+            <div className={ transaction?.type=="Outcome" ?  styles['transaction__type--outcome'] : styles['transaction__type--income']}>
               <h2 >{ transaction?.type}</h2>
             </div>
+            
             <div className={styles['transacion__iconWrapper']}>
               {location=="blockchain" ? <Verified color="success" /> : <HistoryToggleOff/>} 
             </div>

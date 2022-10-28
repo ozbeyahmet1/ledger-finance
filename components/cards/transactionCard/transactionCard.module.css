@@ -52,7 +52,7 @@
     justify-content: center;
 }
 
-.transaction__type{
+.transaction__type--income,.transaction__type--outcome{
     flex: 0.5;
     display: flex;
     align-items: center;
@@ -60,14 +60,22 @@
 
 }
 
-.transaction__type h2 {
-    background-color: crimson;
+.transaction__type--income h2 ,.transaction__type--outcome h2 {
     font-size: 16px;
     line-height: 24px;
     border-radius: 25px;
     padding: 5px 15px;
     font-weight: 400;
 }
+
+.transaction__type--income h2{
+    background-color: rgb(43, 131, 73);
+}
+
+.transaction__type--outcome h2{
+    background-color: crimson;
+}
+
 
 .transaction__description{
     margin-top: 10px;

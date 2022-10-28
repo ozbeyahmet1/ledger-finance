@@ -54,9 +54,9 @@ const outcomeStats = [
 
         {/* Balance Cards*/}
         <div className={styles["dashboard--top"]}>
-          <BalanceCard background='green'/>
-          <BalanceCard background='black'/>
-          <BalanceCard background='black'/>
+          <BalanceCard background='green' value={9854}/>
+          <BalanceCard background='black' value={2791}/>
+          <BalanceCard background='black' value={6271}/>
         </div>
 
         {/* Dashboard Top Body*/}

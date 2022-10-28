@@ -72,6 +72,8 @@
     padding: 10px;
     border: 2px solid rgb(83, 83, 224);
     border-radius: 5px;
+    min-width:960px;
+    margin-bottom: 20px;
 }
 .wallet__transactionWrapper h4 {
     font-size: 28px;
@@ -236,6 +238,82 @@
     font-size: 20px;
 }
 
+.wallet__transaction{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    background-color: grey;
+    min-width:960px;
+    padding: 15px;
+    background: linear-gradient(190deg, #0051ff, #071069);
+    background-size: 400% 200%;
+    border-radius: 10px ;
+    margin-bottom: 15px;
+    border: 1px solid grey;
+    -webkit-animation: AnimationName 1s ease infinite;
+    -moz-animation: AnimationName 1s ease infinite;
+    -o-animation: AnimationName 1s ease infinite;
+    animation: AnimationName 1s ease infinite;
+}
 
+.wallet__success{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    background-color: grey;
+    padding: 15px;
+    background:  #86eb72;
+    background-size: 400% 200%;
+    border-radius: 10px ;
+    margin-bottom: 15px;
+    border: 1px solid grey;
+    min-width:960px;
+}
 
+.wallet__success h3:hover{
+    text-decoration: underline;
+    cursor: pointer;
+}
 
+.wallet__loading{
+    width: 48px;
+    height: 48px;
+    border: 5px solid #FFF;
+    border-bottom-color: transparent;
+    border-radius: 50%;
+    display: inline-block;
+    box-sizing: border-box;
+    animation: rotation 1s linear infinite;
+    }
+
+    @keyframes rotation {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+    } 
+
+    @-webkit-keyframes AnimationName {
+        0%{background-position:23% 0%}
+        50%{background-position:78% 100%}
+        100%{background-position:23% 0%}
+    }
+    @-moz-keyframes AnimationName {
+        0%{background-position:23% 0%}
+        50%{background-position:78% 100%}
+        100%{background-position:23% 0%}
+    }
+    @-o-keyframes AnimationName {
+        0%{background-position:23% 0%}
+        50%{background-position:78% 100%}
+        100%{background-position:23% 0%}
+    }
+    @keyframes AnimationName {
+        0%{background-position:23% 0%}
+        50%{background-position:78% 100%}
+        100%{background-position:23% 0%}
+    }
