@@ -5,32 +5,30 @@ import styles from './wallet.module.css'
 import Web3Modal from 'web3modal';
 import TransactionCard from "../../components/cards/transactionCard"
 import BalanceCard from '../../components/cards/balanceCard'
-import {Add,CloseOutlined,AccessTimeOutlined,ErrorOutline,Close, ModeStandby} from '@mui/icons-material';
+import {Add,CloseOutlined,AccessTimeOutlined,ErrorOutline,Close, ModeStandby, Warning} from '@mui/icons-material';
 import { TransactionInterface } from "../../interfaces/transaction.interface";
 import { Tooltip } from '@mui/material';
 import Link from 'next/link';
-import { OrderByNameAscending } from '../../helpers/orderingUtils';
-export interface IAppProps {
-}
 
-export default function App (props: IAppProps) {
+export default function App () {
     const [tasks,setTasks]=React.useState<any[]>([])
-    const [input, setInput]=React.useState('');
     const [transaction, setTransaction] = React.useState("");
     const [transactions, setTransactions] = React.useState<any[]>([]);
     const current = new Date().toLocaleString();
     const [hash,setHash]=React.useState("");
-    const [open, setOpen] = React.useState(false)
+    const [open, setOpen] = React.useState(false);
+    const [statue,SetStatue]=React.useState("initial");
+    const [warning,setWarning]=React.useState(false);
     const [formInfo, setFormInfo] = React.useState({
       type: "Income",
       category:"Housing",
       date: current,
       description: "",
       headline: "",
-      value: "",
-      location:"localStorage",
+      value: 0,
     });
-    const [statue,SetStatue]=React.useState("initial")
+ 
+
     //Adding stashing transactions to local storage
     const AddTxnToLocal = (e:any) => {
       const newTransaction = {   
@@ -40,22 +38,27 @@ export default function App (props: IAppProps) {
         description: formInfo.description,
         headline: formInfo.headline,
         value: formInfo.value,
-        location:formInfo.location,
       };
-      setTransactions([...transactions, newTransaction]);
-      localStorage.setItem("transactions", JSON.stringify([...transactions, newTransaction]));
-      setTransaction("");
-      setOpen(false);
-      setFormInfo({
-        type: "",
-        category:"",
-        date: current,
-        description: "",
-        headline: "",
-        value: "",
-        location:"",
-      });
-  };
+      if (newTransaction.description==""||newTransaction.headline=="" || newTransaction.value.toString().length==0) {
+        setWarning(true)
+      } else {
+        setWarning(false);
+        setTransactions([...transactions, newTransaction]);
+        localStorage.setItem("transactions", JSON.stringify([...transactions, newTransaction]));
+        setTransaction("");
+        setOpen(false);
+        setFormInfo({
+          type: "Income",
+          category:"Housing",
+          date: current,
+          description: "",
+          headline: "",
+          value: 0,
+        });
+      }
+      
+    };
+
 
     //Getting stashing transactions from local storage
     const localTxns = localStorage.getItem("transactions") || "";
@@ -67,17 +70,19 @@ export default function App (props: IAppProps) {
         }
     },[])
 
+
+    //Clear all transactions in local storage
     const ClearTxnInLocal=()=>{
       setTransactions([]);
       localStorage.removeItem("transactions");
-  }
+    }
+
 
     //Adding stashing transactions in local storage to blockchain
     const AddTxnToBlockchain = async ()=>{    
       let task = {
         'data': JSON.stringify(transactions),
       };
-      
       try {
         const web3modal = new Web3Modal();
         const connection = await web3modal.connect();
@@ -99,8 +104,8 @@ export default function App (props: IAppProps) {
       } catch(error) {
         console.log("Error in AddTxnToBlockchain Function", error);
       }
-     
     };
+
 
     //Getting transactions from blockchain
     const getAllTasks = async() => {
@@ -143,11 +148,8 @@ export default function App (props: IAppProps) {
         { value: "Entertainment"},
       ]
   
-    
-  
-  
   const PushToBlockchain = () => {
-    setFormInfo({ ...formInfo,location: "blockchain" })
+    setFormInfo({ ...formInfo})
     AddTxnToBlockchain().then(ClearTxnInLocal)
   }
 
@@ -202,13 +204,7 @@ for (var i = 0; i< outcomes.length; i++)
       
       {/*Right side of wallet*/} {/*Approve stashing transactions*/}
       <div className={styles["wallet--right"]}>
-        <div className={styles["wallet__filters"]}>
-          <h3>Sort By : Asc</h3>
-          <h3>Sort By : Asc</h3>
-          <h3>Sort By : Asc</h3>
-          <h3>Sort By : Asc</h3>
-          
-        </div>
+
 
       {statue=="initial" &&
         <div className={styles["wallet__transactionWrapper"]}>
@@ -277,13 +273,14 @@ for (var i = 0; i< outcomes.length; i++)
             />
           </div>
           <div className={styles["wallet--bottom"]}>         
-            <div className={styles["wallet--right"]}>
+            <div className={styles["wallet__modal--right"]}>
               <div className={styles["wallet__time"]}>
                 <AccessTimeOutlined/>
                 <h4>{current}</h4>
               </div>
 
               <div className={styles["wallet__selectWrapper"]}>
+                <h4>Type</h4>
                 <select
                   value={formInfo.type}
                   onChange={(event: any)=>setFormInfo({ ...formInfo,type: event?.target?.value })}
@@ -298,6 +295,7 @@ for (var i = 0; i< outcomes.length; i++)
               </div>
 
               <div className={styles["wallet__selectWrapper"]}>
+              <h4>Category</h4>
                 <select
                   value={formInfo.category}
                   onChange={(event: any)=>setFormInfo({ ...formInfo,category: event?.target?.value })}
@@ -312,6 +310,7 @@ for (var i = 0; i< outcomes.length; i++)
               </div>
 
               <div className={styles['wallet__input']}>
+                <h4>Value in USD</h4>
                 <input
                   type="number"
                   placeholder="Value"
@@ -322,6 +321,7 @@ for (var i = 0; i< outcomes.length; i++)
               </div>
 
               <div className={styles['wallet__input']}>
+                <h4>Description</h4>
                 <input
                   type="text"
                   placeholder="description"
@@ -331,6 +331,7 @@ for (var i = 0; i< outcomes.length; i++)
               </div>
 
               <div className={styles['wallet__input']}>
+                <h4>Headline</h4>
                 <input
                   type="text"
                   placeholder="headline"
@@ -340,6 +341,7 @@ for (var i = 0; i< outcomes.length; i++)
               </div>
              
               <h4 className={styles["wallet__button"]} onClick={()=>AddTxnToLocal(formInfo)}>Post</h4> 
+              {warning && <h3 className={styles['wallet__warning']}>Please fill the all fields</h3>}
             </div>
           </div>
         </> 

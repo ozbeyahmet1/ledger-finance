@@ -140,10 +140,13 @@
 }
 
 
-
-
-
-
+@media screen and (max-width: 1601px) {
+    .dashboard{
+        width: 65%;
+        margin-left:7.5%;
+        margin-right: 27.5%;
+    }
+  }
 
 
 

@@ -3,81 +3,83 @@ import * as React from 'react';
 import { contractAbi,contractAddress } from '../../constants';
 import styles from '../wallet/wallet.module.css';
 import Web3Modal from 'web3modal';
-import TransactionCard from "../../components/cards/transactionCard"
+import AssetCard from "../../components/cards/assetCard"
 import BalanceCard from '../../components/cards/balanceCard'
-import {Add,CloseOutlined,AccessTimeOutlined,ErrorOutline,Close, ModeStandby} from '@mui/icons-material';
-import { TransactionInterface } from "../../interfaces/transaction.interface";
+import {Add,CloseOutlined,AccessTimeOutlined,ErrorOutline,Close, ModeStandby, Warning} from '@mui/icons-material';
+import { AssetInterface } from "../../interfaces/asset.interface";
 import { Tooltip } from '@mui/material';
 import Link from 'next/link';
-import { OrderByNameAscending } from '../../helpers/orderingUtils';
-export interface IAppProps {
-}
 
-export default function App (props: IAppProps) {
+export default function App () {
     const [tasks,setTasks]=React.useState<any[]>([])
-    const [input, setInput]=React.useState('');
-    const [transaction, setTransaction] = React.useState("");
-    const [transactions, setTransactions] = React.useState<any[]>([]);
+    const [asset, setAsset] = React.useState("");
+    const [assets, setAssets] = React.useState<any[]>([]);
     const current = new Date().toLocaleString();
     const [hash,setHash]=React.useState("");
-    const [open, setOpen] = React.useState(false)
+    const [open, setOpen] = React.useState(false);
+    const [statue,SetStatue]=React.useState("initial");
+    const [warning,setWarning]=React.useState(false);
     const [formInfo, setFormInfo] = React.useState({
-      type: "Income",
-      category:"Housing",
+      category:"Cash",
       date: current,
       description: "",
       headline: "",
-      value: "",
-      location:"localStorage",
+      value: 0,
     });
-    const [statue,SetStatue]=React.useState("initial")
-    //Adding stashing transactions to local storage
-    const AddTxnToLocal = (e:any) => {
-      const newTransaction = {   
-        type: formInfo.type,
+ 
+
+    //Adding stashing assets to local storage
+    const AddAssetToLocal = (e:any) => {
+      const newAsset = {   
         category:formInfo.category,
         date: formInfo.date,
         description: formInfo.description,
         headline: formInfo.headline,
         value: formInfo.value,
-        location:formInfo.location,
       };
-      setTransactions([...transactions, newTransaction]);
-      localStorage.setItem("transactions", JSON.stringify([...transactions, newTransaction]));
-      setTransaction("");
-      setOpen(false);
-      setFormInfo({
-        type: "",
-        category:"",
-        date: current,
-        description: "",
-        headline: "",
-        value: "",
-        location:"",
-      });
-  };
+      if (newAsset.description==""||newAsset.headline=="" || newAsset.value.toString().length==0) {
+        setWarning(true)
+      } else {
+        setWarning(false);
+        setAssets([...assets, newAsset]);
+        localStorage.setItem("assets", JSON.stringify([...assets, newAsset]));
+        setAsset("");
+        setOpen(false);
+        setFormInfo({
+          category:"Cash",
+          date: current,
+          description: "",
+          headline: "",
+          value: 0,
+        });
+      }
+      
+    };
 
-    //Getting stashing transactions from local storage
-    const localTxns = localStorage.getItem("transactions") || "";
-    const localTxnsJson= localTxns && JSON.parse(localTxns);
+
+    //Getting stashing assets from local storage
+    const localAssets = localStorage.getItem("assets") || "";
+    const localAssetsJson= localAssets && JSON.parse(localAssets);
     React.useEffect(()=>{
-        if(localStorage.getItem("transactions")){
-            const storedList = JSON.parse(localTxns);
-            setTransactions(storedList);
+        if(localStorage.getItem("assets")){
+            const storedList = JSON.parse(localAssets);
+            setAssets(storedList);
         }
     },[])
 
-    const ClearTxnInLocal=()=>{
-      setTransactions([]);
-      localStorage.removeItem("transactions");
-  }
 
-    //Adding stashing transactions in local storage to blockchain
-    const AddTxnToBlockchain = async ()=>{    
+    //Clear all assets in local storage
+    const ClearAssetInLocal=()=>{
+      setAssets([]);
+      localStorage.removeItem("assets");
+    }
+
+
+    //Adding stashing assets in local storage to blockchain
+    const AddAssetsToBlockchain = async ()=>{    
       let task = {
-        'data': JSON.stringify(transactions),
+        'data': JSON.stringify(assets),
       };
-      
       try {
         const web3modal = new Web3Modal();
         const connection = await web3modal.connect();
@@ -89,21 +91,21 @@ export default function App (props: IAppProps) {
             signer
         )
           
-        let transaction = await TaskContract.addTransaction(task.data);
-        ClearTxnInLocal();
+        let asset = await TaskContract.addAsset(task.data);
+        ClearAssetInLocal();
         SetStatue("waiting")
-        const txn = await transaction.wait();
+        const txn = await asset.wait();
         setHash(txn.transactionHash);
         SetStatue("completed")
       
       } catch(error) {
-        console.log("Error in AddTxnToBlockchain Function", error);
+        console.log("Error in AddAssetsToBlockchain Function", error);
       }
-     
     };
 
-    //Getting transactions from blockchain
-    const getAllTasks = async() => {
+
+    //Getting assets from blockchain
+    const getAllAssets = async() => {
     try {  
       const web3modal = new Web3Modal();
       const connection = await web3modal.connect();
@@ -114,41 +116,30 @@ export default function App (props: IAppProps) {
           contractAbi,
           signer
         )
-        let allTasks = await TaskContract.fetchMyTransactions();
-        setTasks(allTasks);
+        let allAssets = await TaskContract.fetchMyAssets();
+        setTasks(allAssets);
     } catch(error) {
       console.log(error);
     }
   }
     
   React.useEffect(() => {
-    getAllTasks()
+    getAllAssets()
   },[hash]);
 
 
-    const type_options = [
-      { value: "Income" },
-      { value: "Outcome" },
-    ];
 
     const categories_options = [
-        { value: "Housing"},
-        { value: "Transportation"},
-        { value: "Food" },
-        { value: "Utilities" },
-        { value: "Clothing"},
-        { value: "Medical/Healthcare" },
-        { value: "Personal"},
-        { value: "Education"},
-        { value: "Entertainment"},
+        { value: "Cash"},
+        { value: "Equity"},
+        { value: "Real Estate" },
+        { value: "Commodities" },
+        { value: "Currencies"},
       ]
   
-    
-  
-  
   const PushToBlockchain = () => {
-    setFormInfo({ ...formInfo,location: "blockchain" })
-    AddTxnToBlockchain().then(ClearTxnInLocal)
+    setFormInfo({ ...formInfo})
+    AddAssetsToBlockchain().then(ClearAssetInLocal)
   }
 
   const jsonStrings = tasks.map(item=>JSON.parse(item.data))
@@ -165,6 +156,15 @@ export default function App (props: IAppProps) {
 }
 const concatedJsonStrings = sliceIntoChunks(jsonStrings)
 
+let addIncome=0;
+
+for (var i = 0; i< concatedJsonStrings.length; i++)
+{
+  addIncome += parseFloat(concatedJsonStrings[i].value)
+}
+
+
+console.log(addIncome)
   return (
 
     <div className={styles["wallet"]}>
@@ -173,7 +173,7 @@ const concatedJsonStrings = sliceIntoChunks(jsonStrings)
 
       {/*Left side of wallet**/}
       <div className={styles["wallet--left"]}>
-        <BalanceCard background="red" value={825}/>
+        <BalanceCard background="red" value={addIncome}/>
         <div
           className={styles["wallet__addNewTransaction"]}
           onClick={()=>setOpen(true)}
@@ -183,15 +183,9 @@ const concatedJsonStrings = sliceIntoChunks(jsonStrings)
         </div>
       </div>
       
-      {/*Right side of wallet*/} {/*Approve stashing transactions*/}
+      {/*Right side of wallet*/} {/*Approve stashing assets*/}
       <div className={styles["wallet--right"]}>
-        <div className={styles["wallet__filters"]}>
-          <h3>Sort By : Asc</h3>
-          <h3>Sort By : Asc</h3>
-          <h3>Sort By : Asc</h3>
-          <h3>Sort By : Asc</h3>
-          
-        </div>
+
 
       {statue=="initial" &&
         <div className={styles["wallet__transactionWrapper"]}>
@@ -199,17 +193,17 @@ const concatedJsonStrings = sliceIntoChunks(jsonStrings)
             <h4>Stashing Transactions</h4>
             <Tooltip title={
               <div>
-                <h2>Why do we stash transactions?</h2>
-                <h4>Every transaction to be made on the blockchain will cause a cost. For this reason, we send a maximum of 10 transactions to the blockchain in bundles.</h4>
+                <h2>Why do we stash assets?</h2>
+                <h4>Every transaction to be made on the blockchain will cause a cost. For this reason, we send a maximum of 10 assets to the blockchain in bundles.</h4>
               </div>
             } >
               <ErrorOutline/>
             </Tooltip>
           </div>
-            {localTxns ? localTxnsJson.map((element:TransactionInterface,id:number)=>{
-              return <TransactionCard
+            {localAssets ? localAssetsJson.map((element:AssetInterface,id:number)=>{
+              return <AssetCard
               location='localStorage'
-                transaction={element}
+                asset={element}
             />
             }): <h2>No transaction recorded</h2>}
           <h3 className={styles["wallet__pushButton"]} onClick={()=>PushToBlockchain()}>Push to Blockchain</h3>
@@ -238,10 +232,10 @@ const concatedJsonStrings = sliceIntoChunks(jsonStrings)
       
       <div>
       
-        {tasks ? concatedJsonStrings.map((element:TransactionInterface,id:number)=>{
-                    return <TransactionCard
+        {tasks ? concatedJsonStrings.map((element:AssetInterface,id:number)=>{
+                    return <AssetCard
                     location='blockchain'
-                    transaction={element}
+                    asset={element}
                 />
                   }): <h2>No transaction recorded</h2> }
         </div>
@@ -260,27 +254,16 @@ const concatedJsonStrings = sliceIntoChunks(jsonStrings)
             />
           </div>
           <div className={styles["wallet--bottom"]}>         
-            <div className={styles["wallet--right"]}>
+            <div className={styles["wallet__modal--right"]}>
               <div className={styles["wallet__time"]}>
                 <AccessTimeOutlined/>
                 <h4>{current}</h4>
               </div>
 
-              <div className={styles["wallet__selectWrapper"]}>
-                <select
-                  value={formInfo.type}
-                  onChange={(event: any)=>setFormInfo({ ...formInfo,type: event?.target?.value })}
-                  className={styles[`wallet__select`]}
-                >
-                  {type_options.map((option) => {
-                    return <option key={option.value} value={option.value}>
-                    {option.value} 
-                  </option>
-                  })}
-                </select>
-              </div>
+         
 
               <div className={styles["wallet__selectWrapper"]}>
+              <h4>Category</h4>
                 <select
                   value={formInfo.category}
                   onChange={(event: any)=>setFormInfo({ ...formInfo,category: event?.target?.value })}
@@ -295,6 +278,7 @@ const concatedJsonStrings = sliceIntoChunks(jsonStrings)
               </div>
 
               <div className={styles['wallet__input']}>
+                <h4>Value in USD</h4>
                 <input
                   type="number"
                   placeholder="Value"
@@ -305,6 +289,7 @@ const concatedJsonStrings = sliceIntoChunks(jsonStrings)
               </div>
 
               <div className={styles['wallet__input']}>
+                <h4>Description</h4>
                 <input
                   type="text"
                   placeholder="description"
@@ -314,6 +299,7 @@ const concatedJsonStrings = sliceIntoChunks(jsonStrings)
               </div>
 
               <div className={styles['wallet__input']}>
+                <h4>Headline</h4>
                 <input
                   type="text"
                   placeholder="headline"
@@ -322,7 +308,8 @@ const concatedJsonStrings = sliceIntoChunks(jsonStrings)
                 />
               </div>
              
-              <h4 className={styles["wallet__button"]} onClick={()=>AddTxnToLocal(formInfo)}>Post</h4> 
+              <h4 className={styles["wallet__button"]} onClick={()=>AddAssetToLocal(formInfo)}>Post</h4> 
+              {warning && <h3 className={styles['wallet__warning']}>Please fill the all fields</h3>}
             </div>
           </div>
         </> 

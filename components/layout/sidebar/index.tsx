@@ -15,6 +15,7 @@ import {
   Logout
 
 } from "@mui/icons-material/"
+import { useWindowSize } from "../../../hooks/useWindowSize"
 
 
 export interface ISidebarElementProps {
@@ -51,7 +52,7 @@ export default function SidebarComponent(props: ISidebarComponentProps) {
   const { address } = useAccount()
   const { data: session, status } = useSession()
   const loading = status === "loading"
-
+  const { width } = useWindowSize();
   const handleLogin = async () => {
     try {
       const callbackUrl = "/protected"
@@ -82,11 +83,22 @@ export default function SidebarComponent(props: ISidebarComponentProps) {
     <div className={styles.sidebar}>
       <Link href="/">
         <div className={styles["sidebar__logo"]}>
+          {width!==undefined && width > 1600 ?
           <Image
             src="https://res.cloudinary.com/droheqpxn/image/upload/v1642427743/ledger/LogoLarge_efgajx.png"
             width={233}
             height={80}
+            alt="logo"
           />
+          :
+          <Image
+            src="https://res.cloudinary.com/dvhosztgf/image/upload/v1667014280/ozbey/logo1_1_ype8xm.svg"
+            width={60}
+            height={76}
+            alt="logo"
+          />
+
+          }
         </div>
       </Link>
       <div className={styles["sidebar__elementWrapper"]}>
@@ -128,7 +140,7 @@ export default function SidebarComponent(props: ISidebarComponentProps) {
           <>  
             <div className={styles['sidebar__logout']}>
               <h2>
-                {address.slice(0,23)}...
+                { address.slice(0,23)}...
               </h2>
               <a
               href={`/api/auth/signout`}
@@ -147,6 +159,7 @@ export default function SidebarComponent(props: ISidebarComponentProps) {
         {
            (address && !session?.user) && 
            <>
+            {width!==undefined && width > 1600 ?
             <button
             onClick={e => {
               e.preventDefault()
@@ -154,8 +167,24 @@ export default function SidebarComponent(props: ISidebarComponentProps) {
             }}
             className={styles['sidebar__button']}
           >
-            Please Sıgn In
+            SIGN IN WITH ETHEREUM
           </button>
+          
+          :
+          <div className={styles['sidebar__button--resp']}>
+            <Image
+                onClick={e => {
+                  e.preventDefault()
+                  handleLogin()
+                }}
+                src="https://res.cloudinary.com/dvhosztgf/image/upload/v1667025494/ozbey/books/1200px-Eth-diamond-rainbow_tuuzc3.png"
+                width={32}
+                height={50}
+                alt=""
+              />
+          </div>
+        
+          }
            </>
         }
 

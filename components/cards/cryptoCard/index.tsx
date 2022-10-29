@@ -17,10 +17,6 @@ export default function CryptoCard ({crypto}: ICryptoCard) {
         <div className={styles['crypto__index']}>
             <div>
               <h2>{crypto.name}</h2>
-              <h5 className={(crypto.price_change_percentage_24h > 0) 
-              ? styles['crypto__percantage--positiveResp'] 
-              : styles['crypto__percantage--negativeResp'] }>
-                {crypto.price_change_percentage_24h.toFixed(2)} %</h5>
             </div>
             <div className={styles['crypto__stats']}>
               <Image 

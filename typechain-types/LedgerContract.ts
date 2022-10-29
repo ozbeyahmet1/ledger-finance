@@ -28,6 +28,18 @@ import type {
 } from "./common";
 
 export declare namespace LedgerContract {
+  export type AssetStruct = {
+    id: PromiseOrValue<BigNumberish>;
+    username: PromiseOrValue<string>;
+    data: PromiseOrValue<string>;
+  };
+
+  export type AssetStructOutput = [BigNumber, string, string] & {
+    id: BigNumber;
+    username: string;
+    data: string;
+  };
+
   export type TransactionStruct = {
     id: PromiseOrValue<BigNumberish>;
     username: PromiseOrValue<string>;
@@ -43,25 +55,44 @@ export declare namespace LedgerContract {
 
 export interface LedgerContractInterface extends utils.Interface {
   functions: {
+    "addAsset(string)": FunctionFragment;
     "addTransaction(string)": FunctionFragment;
+    "fetchMyAssets()": FunctionFragment;
     "fetchMyTransactions()": FunctionFragment;
   };
 
   getFunction(
-    nameOrSignatureOrTopic: "addTransaction" | "fetchMyTransactions"
+    nameOrSignatureOrTopic:
+      | "addAsset"
+      | "addTransaction"
+      | "fetchMyAssets"
+      | "fetchMyTransactions"
   ): FunctionFragment;
 
   encodeFunctionData(
+    functionFragment: "addAsset",
+    values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
     functionFragment: "addTransaction",
     values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "fetchMyAssets",
+    values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "fetchMyTransactions",
     values?: undefined
   ): string;
 
+  decodeFunctionResult(functionFragment: "addAsset", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "addTransaction",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "fetchMyAssets",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -70,11 +101,24 @@ export interface LedgerContractInterface extends utils.Interface {
   ): Result;
 
   events: {
+    "AddAsset(address,uint256)": EventFragment;
     "AddTransaction(address,uint256)": EventFragment;
   };
 
+  getEvent(nameOrSignatureOrTopic: "AddAsset"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "AddTransaction"): EventFragment;
 }
+
+export interface AddAssetEventObject {
+  recipient: string;
+  taskId: BigNumber;
+}
+export type AddAssetEvent = TypedEvent<
+  [string, BigNumber],
+  AddAssetEventObject
+>;
+
+export type AddAssetEventFilter = TypedEventFilter<AddAssetEvent>;
 
 export interface AddTransactionEventObject {
   recipient: string;
@@ -114,30 +158,57 @@ export interface LedgerContract extends BaseContract {
   removeListener: OnEvent<this>;
 
   functions: {
+    addAsset(
+      data: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
     addTransaction(
       data: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
+
+    fetchMyAssets(
+      overrides?: CallOverrides
+    ): Promise<[LedgerContract.AssetStructOutput[]]>;
 
     fetchMyTransactions(
       overrides?: CallOverrides
     ): Promise<[LedgerContract.TransactionStructOutput[]]>;
   };
 
+  addAsset(
+    data: PromiseOrValue<string>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
   addTransaction(
     data: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
+
+  fetchMyAssets(
+    overrides?: CallOverrides
+  ): Promise<LedgerContract.AssetStructOutput[]>;
 
   fetchMyTransactions(
     overrides?: CallOverrides
   ): Promise<LedgerContract.TransactionStructOutput[]>;
 
   callStatic: {
+    addAsset(
+      data: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
     addTransaction(
       data: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
+
+    fetchMyAssets(
+      overrides?: CallOverrides
+    ): Promise<LedgerContract.AssetStructOutput[]>;
 
     fetchMyTransactions(
       overrides?: CallOverrides
@@ -145,6 +216,12 @@ export interface LedgerContract extends BaseContract {
   };
 
   filters: {
+    "AddAsset(address,uint256)"(
+      recipient?: null,
+      taskId?: null
+    ): AddAssetEventFilter;
+    AddAsset(recipient?: null, taskId?: null): AddAssetEventFilter;
+
     "AddTransaction(address,uint256)"(
       recipient?: null,
       taskId?: null
@@ -153,19 +230,33 @@ export interface LedgerContract extends BaseContract {
   };
 
   estimateGas: {
+    addAsset(
+      data: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
     addTransaction(
       data: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
+    fetchMyAssets(overrides?: CallOverrides): Promise<BigNumber>;
+
     fetchMyTransactions(overrides?: CallOverrides): Promise<BigNumber>;
   };
 
   populateTransaction: {
+    addAsset(
+      data: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
     addTransaction(
       data: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
+
+    fetchMyAssets(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     fetchMyTransactions(
       overrides?: CallOverrides

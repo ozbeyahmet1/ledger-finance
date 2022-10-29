@@ -1,19 +1,20 @@
 
 .cryptocurrencies{
     background-color: #1A1A1B;
-    width: 100vw;
+    width: 80%;
     min-height: 100vh;
     height: 100%;
     overflow-x: hidden;
-    width: 100%;
+    margin-left: 20%;
+    padding: 70px 50px;
+    display: flex;
+    align-items: flex-start;
+    overflow-y: hidden;
 }
 
 .cryptocurrencies__content{
-    padding-top: 40px;
-    padding-bottom: 40px;
-    padding-left: 430px;
-    padding-right: 70px;
     overflow-x: scroll;
+    width: 100%;
 }
 
 .cryptocurrencies__portfolio{
@@ -137,3 +138,10 @@
     flex: 0.1;
     font-size: 18px;
 }
+
+@media screen and (max-width: 1601px) {
+    .cryptocurrencies{
+        width: 92.5%;
+        margin-left:7.5%;
+    }
+  }

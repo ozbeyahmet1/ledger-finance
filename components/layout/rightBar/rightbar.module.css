@@ -88,4 +88,8 @@
     color: rgb(33, 134, 216);
 }
 
-/* Single Transaction module */
+@media screen and (max-width: 1601px) {
+    .rightBar{
+        width: 27.5%;
+    }
+}
