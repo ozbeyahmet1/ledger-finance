@@ -6,13 +6,14 @@ import RightBar from '../rightBar'
 import { useAccount } from "wagmi"
 import { useRouter } from 'next/router'
 import styles from './primaryLayout.module.css'
+import { providers } from "ethers"
 
-export interface IAppProps {
+export interface IPrimaryLayoutProps {
   children: React.ReactNode
   selected: string
 }
 
-export default function App(props: IAppProps) {
+export default function App(props: IPrimaryLayoutProps) {
   const router = useRouter()
   const { data: session, status } = useSession()
   const loading = status === "loading"

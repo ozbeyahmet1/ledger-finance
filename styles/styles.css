@@ -28,7 +28,9 @@ a {
     background: black;
   }
 }
-
+.icon--grey{
+  background-color: rgb(157, 82, 255);
+}
 :root {
   --blue: #1e90ff;
   --white: #ffffff;
@@ -61,7 +63,7 @@ a {
 }
 
 .icon--grey{
-  background-color: red;
+  background-color: rgb(92, 90, 228);
 }
 
 @media screen and (max-width: 996px) {

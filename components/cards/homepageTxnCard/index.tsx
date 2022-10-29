@@ -3,28 +3,28 @@ import styles from './homepageTxnCard.module.css'
 import { TransactionInterface } from '../../../interfaces/transaction.interface';
 import {  HomeOutlined,DirectionsBusFilledOutlined,FoodBankOutlined,HandymanOutlined,CheckroomOutlined,
   MedicalInformationOutlined,SpaOutlined,SchoolOutlined,TheaterComedyOutlined} from '@mui/icons-material/';
-
+import { Tooltip } from '@mui/material';
 export interface IHomepageTxnCardProps {
   transaction:TransactionInterface;
 }
 
 export default function HomepageTxnCard({transaction}: IHomepageTxnCardProps) {
-
-  const categories_options = [
-    { value: "Housing", icon: <HomeOutlined className={styles['icon--grey']}/>},
-    { value: "Transportation", icon: <DirectionsBusFilledOutlined className={styles['icon--orange']}/> },
-    { value: "Food", icon:<FoodBankOutlined className={styles['icon--red']}/> },
-    { value: "Utilities", icon:<HandymanOutlined className={styles['icon--yellow']}/>},
-    { value: "Clothing", icon:<CheckroomOutlined className={styles['icon--burgundy']}/> },
-    { value: "Medical/Healthcare", icon: <MedicalInformationOutlined className={styles['icon--blue']}/>},
-    { value: "Personal", icon:<SpaOutlined className={styles['icon--green']}/> },
-    { value: "Education", icon: <SchoolOutlined className={styles['icon--pink']}/> },
-    { value: "Entertainment", icon:<TheaterComedyOutlined className={styles['icon--gold']}/> },
-    { value: "NoData", icon:<TheaterComedyOutlined className={styles['icon--gold']}/> },
-    { value: "HowItLooks", icon:<TheaterComedyOutlined className={styles['icon--gold']}/> },
-  ]
-
   const [icon,setIcon]=React.useState(<HomeOutlined/>)
+
+ 
+  const categories_options = [
+    { value: "Housing", icon: <Tooltip title="Housing"><HomeOutlined className='icon--grey'/></Tooltip> },
+    { value: "Transportation", icon:<Tooltip title="Transportation"><DirectionsBusFilledOutlined className='icon--orange'/></Tooltip> },
+    { value: "Food", icon:<Tooltip title="Food"><FoodBankOutlined className='icon--red'/></Tooltip> },
+    { value: "Utilities", icon:<Tooltip title="Utiilities"><HandymanOutlined className='icon--yellow'/></Tooltip>},
+    { value: "Clothing", icon:<Tooltip title="Clothing"><CheckroomOutlined className='icon--burgundy'/></Tooltip> },
+    { value: "Medical/Healthcare", icon:<Tooltip title="Medical/Healthcare"><MedicalInformationOutlined className='icon--blue'/></Tooltip> },
+    { value: "Personal", icon:<Tooltip title="Personal"><SpaOutlined className='icon--green'/></Tooltip> },
+    { value: "Education", icon: <Tooltip title="Education"><SchoolOutlined className='icon--pink'/></Tooltip> },
+    { value: "Entertainment", icon:<Tooltip title="Entertainment"><TheaterComedyOutlined className='icon--gold'/></Tooltip> },
+    { value: "NoData", icon:<Tooltip title="No Data"><TheaterComedyOutlined className='icon--gold'/></Tooltip> },
+    { value: "HowItLooks", icon:<Tooltip title="How It Looks?"><TheaterComedyOutlined className='icon--gold'/></Tooltip>},
+  ]
 
   React.useEffect(()=>{
     categories_options.map((option)=>{
@@ -43,7 +43,7 @@ export default function HomepageTxnCard({transaction}: IHomepageTxnCardProps) {
           <h4>{transaction.date.toLocaleString()}</h4>
         </div>
       </div>
-      <h3>$ {transaction.value}</h3>
+      <h3>$ {+transaction.value}</h3>
     </div>
   );
 }

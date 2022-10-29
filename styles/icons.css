@@ -1,0 +1,71 @@
+.icon--grey,
+.icon--blue,
+.icon--red,
+.icon--orange,
+.icon--burgundy,
+.icon--pink,
+.icon--gold,
+.icon--green,
+.icon--yellow{
+    font-size: 60px !important;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.icon--grey{
+    background-color: rgb(116, 116, 116);
+}
+
+.icon--blue{
+    background-color: rgb(38, 158, 206);
+}
+
+.icon--red{
+    background-color: rgb(238, 42, 42);
+}
+
+.icon--orange{
+    background-color: rgb(236, 141, 31);
+}
+
+.icon--burgundy{
+    background-color: rgb(92, 2, 2);
+}
+
+.icon--pink{
+    background-color: rgb(221, 45, 221);
+}
+
+.icon--gold{
+    background-color: 	#FFD700;
+}
+
+.icon--green{
+    background-color: rgb(154, 240, 57);
+}
+
+.icon--yellow{
+    background-color: rgb(234, 250, 144);
+}
+
+.transaction__nodescription{
+    font-size: 16px;
+    font-weight: 500;
+    color: rgb(255, 255, 255);
+    margin-top: 10px;
+}
+
+.svgIcon--yellow,
+.svgIcon--purple{
+    width: 60px !important;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.svgIcon--yellow{
+    background-color: rgb(234, 250, 144);
+}
+
+.svgIcon--purple{
+    background-color: rgb(174, 0, 255);
+}

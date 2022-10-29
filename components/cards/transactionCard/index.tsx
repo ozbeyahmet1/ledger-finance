@@ -4,7 +4,7 @@ import {  HomeOutlined , KeyboardArrowDownOutlined ,DirectionsBusFilledOutlined,
           FoodBankOutlined,HandymanOutlined,CheckroomOutlined,MedicalInformationOutlined,SpaOutlined,SchoolOutlined,
           TheaterComedyOutlined,KeyboardArrowUpOutlined,Verified,HistoryToggleOff} from '@mui/icons-material/';
 import { TransactionInterface } from '../../../interfaces/transaction.interface';
-
+import { Tooltip } from '@mui/material';
 
 export interface ITransactionCardProps {
   transaction:TransactionInterface;
@@ -13,20 +13,21 @@ export interface ITransactionCardProps {
 
   export default function TransactionCard({transaction,location}: ITransactionCardProps) {
   const [show,setShow]=useState(false);
+  const [icon,setIcon]=useState(<HomeOutlined/>)
 
   const categories_options = [
-    { value: "Housing", icon: <HomeOutlined className={styles['transactionCard__icon--grey']}/>},
-    { value: "Transportation", icon: <DirectionsBusFilledOutlined className={styles['transactionCard__icon--orange']}/> },
-    { value: "Food", icon:<FoodBankOutlined className={styles['transactionCard__icon--red']}/> },
-    { value: "Utilities", icon:<HandymanOutlined className={styles['transactionCard__icon--yellow']}/>},
-    { value: "Clothing", icon:<CheckroomOutlined className={styles['transactionCard__icon--burgundy']}/> },
-    { value: "Medical/Healthcare", icon: <MedicalInformationOutlined className={styles['transactionCard__icon--blue']}/>},
-    { value: "Personal", icon:<SpaOutlined className={styles['transactionCard__icon--green']}/> },
-    { value: "Education", icon: <SchoolOutlined className={styles['transactionCard__icon--pink']}/> },
-    { value: "Entertainment", icon:<TheaterComedyOutlined className={styles['transactionCard__icon--gold']}/> },
+    { value: "Housing", icon: <Tooltip title="Housing"><HomeOutlined className='icon--grey'/></Tooltip> },
+    { value: "Transportation", icon:<Tooltip title="Transportation"><DirectionsBusFilledOutlined className='icon--orange'/></Tooltip> },
+    { value: "Food", icon:<Tooltip title="Food"><FoodBankOutlined className='icon--red'/></Tooltip> },
+    { value: "Utilities", icon:<Tooltip title="Utiilities"><HandymanOutlined className='icon--yellow'/></Tooltip>},
+    { value: "Clothing", icon:<Tooltip title="Clothing"><CheckroomOutlined className='icon--burgundy'/></Tooltip> },
+    { value: "Medical/Healthcare", icon:<Tooltip title="Medical/Healthcare"><MedicalInformationOutlined className='icon--blue'/></Tooltip> },
+    { value: "Personal", icon:<Tooltip title="Personal"><SpaOutlined className='icon--green'/></Tooltip> },
+    { value: "Education", icon: <Tooltip title="Education"><SchoolOutlined className='icon--pink'/></Tooltip> },
+    { value: "Entertainment", icon:<Tooltip title="Entertainment"><TheaterComedyOutlined className='icon--gold'/></Tooltip> },
+    { value: "NoData", icon:<Tooltip title="No Data"><TheaterComedyOutlined className='icon--gold'/></Tooltip> },
+    { value: "HowItLooks", icon:<Tooltip title="How It Looks?"><TheaterComedyOutlined className='icon--gold'/></Tooltip>},
   ]
-
-  const [icon,setIcon]=useState(<HomeOutlined/>)
 
   useEffect(()=>{
     categories_options.map((option)=>{
@@ -48,7 +49,7 @@ export interface ITransactionCardProps {
           </div>
           <div>
           </div>
-            <h3 className={styles['transaction__value']}>${ transaction?.value}</h3>
+            <h3 className={styles['transaction__value']}>${ +transaction?.value}</h3>
             
             <div className={ transaction?.type=="Outcome" ?  styles['transaction__type--outcome'] : styles['transaction__type--income']}>
               <h2 >{ transaction?.type}</h2>
@@ -58,7 +59,7 @@ export interface ITransactionCardProps {
               {location=="blockchain" ? <Verified color="success" /> : <HistoryToggleOff/>} 
             </div>
         </div>
-     
+
         <div className={styles['transaction__description']}>
           {(show &&  transaction.description!=="")  && 
           <div onClick={()=>setShow(prevState=>!prevState)} className={styles['transaction__descriptionIcon']}>
@@ -76,7 +77,6 @@ export interface ITransactionCardProps {
 
           {show ? <h3>{ transaction?.description}</h3> :  ""}
 
-          { transaction?.description=="" && <h3>No description</h3>}
         </div>
         
     </div>

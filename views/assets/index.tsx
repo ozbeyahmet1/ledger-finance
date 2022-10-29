@@ -131,7 +131,7 @@ export default function App () {
 
     const categories_options = [
         { value: "Cash"},
-        { value: "Equity"},
+        { value: "Digital Assets"},
         { value: "Real Estate" },
         { value: "Commodities" },
         { value: "Currencies"},

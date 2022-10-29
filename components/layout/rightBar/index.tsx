@@ -68,7 +68,7 @@ function Index() {
       </div>
       <div>
         <h3 className={styles['rightBar__headline']}>Transactions</h3>
-          {tasks && concatedJsonStrings.map((element:TransactionInterface,id:number)=>{
+          {tasks && concatedJsonStrings.slice(0,4).map((element:TransactionInterface,id:number)=>{
             return <HomepageTxnCard transaction={element}/> })}
 
           {concatedJsonStrings.length==0 && 
