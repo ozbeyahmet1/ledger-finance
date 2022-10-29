@@ -6,16 +6,14 @@ import { contractAbi,contractAddress } from '../../../constants';
 import HomepageTxnCard from '../../cards/homepageTxnCard'
 import Person2OutlinedIcon from '@mui/icons-material/Person2Outlined';
 import { ethers } from 'ethers';
-import { TransactionInterface } from '../../../interfaces/transaction.interface';
 import Link from 'next/link';
+import { TransactionInterface } from '../../../interfaces/transaction.interface';
 
-export interface ITransactionProps {
-  transaction:TransactionInterface;
-}
+export default function RightBar() {
 
-function Index() {
   const current = new Date();
   const [tasks,setTasks]=React.useState<any[]>([])
+
   const getAllTransactions = async() => {
     try {  
       const web3modal = new Web3Modal();
@@ -38,23 +36,20 @@ function Index() {
     getAllTransactions();
   },[]);
 
-
-  console.log(tasks)
   const jsonStrings = tasks.slice(0,4).map(item=>JSON?.parse(item.data))
-  console.log(jsonStrings)
-  
-  
+
   function sliceIntoChunks(arr:any) {
     const res = [];
     for (let i = 0; i < arr.length; i++) {
         for (let index = 0; index < arr[i].length; index++) {
           res.push(arr[i][index]);
         }
-  
     }
     return res;
   }
+
   const concatedJsonStrings = sliceIntoChunks(jsonStrings)
+  
   return (
     <div className={styles.rightBar}>
       <div className={styles['rightBar__user']}>
@@ -100,4 +95,3 @@ function Index() {
   )
 }
 
-export default Index

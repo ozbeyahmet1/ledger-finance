@@ -1,6 +1,6 @@
 import * as React from 'react';
 // import { LinearProgress } from '@mui/material';
-import LinearProgress from '../../ui/linearProgress'
+import LinearProgress from '../../linearProgress'
 import styles from './balanceCard.module.css'
 
 export interface IBalanceCard {

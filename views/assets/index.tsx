@@ -5,7 +5,7 @@ import styles from '../wallet/wallet.module.css';
 import Web3Modal from 'web3modal';
 import AssetCard from "../../components/cards/assetCard"
 import BalanceCard from '../../components/cards/balanceCard'
-import {Add,CloseOutlined,AccessTimeOutlined,ErrorOutline,Close, ModeStandby, Warning} from '@mui/icons-material';
+import {Add,CloseOutlined,AccessTimeOutlined,ErrorOutline,Close} from '@mui/icons-material';
 import { AssetInterface } from "../../interfaces/asset.interface";
 import { Tooltip } from '@mui/material';
 import Link from 'next/link';
@@ -26,7 +26,6 @@ export default function App () {
       headline: "",
       value: 0,
     });
- 
 
     //Adding stashing assets to local storage
     const AddAssetToLocal = (e:any) => {
@@ -56,7 +55,6 @@ export default function App () {
       
     };
 
-
     //Getting stashing assets from local storage
     const localAssets = localStorage.getItem("assets") || "";
     const localAssetsJson= localAssets && JSON.parse(localAssets);
@@ -67,13 +65,11 @@ export default function App () {
         }
     },[])
 
-
     //Clear all assets in local storage
     const ClearAssetInLocal=()=>{
       setAssets([]);
       localStorage.removeItem("assets");
     }
-
 
     //Adding stashing assets in local storage to blockchain
     const AddAssetsToBlockchain = async ()=>{    
@@ -85,13 +81,13 @@ export default function App () {
         const connection = await web3modal.connect();
         const provider = new ethers.providers.Web3Provider(connection);
         const signer = provider.getSigner();
-          const TaskContract = new ethers.Contract(
+          const AssetsContract = new ethers.Contract(
             contractAddress,
             contractAbi,
             signer
         )
           
-        let asset = await TaskContract.addAsset(task.data);
+        let asset = await AssetsContract.addAsset(task.data);
         ClearAssetInLocal();
         SetStatue("waiting")
         const txn = await asset.wait();
@@ -103,7 +99,6 @@ export default function App () {
       }
     };
 
-
     //Getting assets from blockchain
     const getAllAssets = async() => {
     try {  
@@ -111,12 +106,12 @@ export default function App () {
       const connection = await web3modal.connect();
       const provider = new ethers.providers.Web3Provider(connection);
       const signer = provider.getSigner();
-        const TaskContract = new ethers.Contract(
+        const AssetsContract = new ethers.Contract(
           contractAddress,
           contractAbi,
           signer
         )
-        let allAssets = await TaskContract.fetchMyAssets();
+        let allAssets = await AssetsContract.fetchMyAssets();
         setTasks(allAssets);
     } catch(error) {
       console.log(error);
@@ -127,15 +122,13 @@ export default function App () {
     getAllAssets()
   },[hash]);
 
-
-
-    const categories_options = [
-        { value: "Cash"},
-        { value: "Digital Assets"},
-        { value: "Real Estate" },
-        { value: "Commodities" },
-        { value: "Currencies"},
-      ]
+  const categories_options = [
+      { value: "Cash"},
+      { value: "Digital Assets"},
+      { value: "Real Estate" },
+      { value: "Commodities" },
+      { value: "Currencies"},
+    ]
   
   const PushToBlockchain = () => {
     setFormInfo({ ...formInfo})
@@ -163,8 +156,6 @@ for (var i = 0; i< concatedJsonStrings.length; i++)
   addIncome += parseFloat(concatedJsonStrings[i].value)
 }
 
-
-console.log(addIncome)
   return (
 
     <div className={styles["wallet"]}>
@@ -237,7 +228,7 @@ console.log(addIncome)
                     location='blockchain'
                     asset={element}
                 />
-                  }): <h2>No transaction recorded</h2> }
+                  }): <h2>No asset recorded</h2> }
         </div>
       </div>
     </div>
@@ -259,9 +250,7 @@ console.log(addIncome)
                 <AccessTimeOutlined/>
                 <h4>{current}</h4>
               </div>
-
-         
-
+              
               <div className={styles["wallet__selectWrapper"]}>
               <h4>Category</h4>
                 <select

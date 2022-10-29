@@ -11,12 +11,9 @@ export default function App ({news}: IAppProps) {
     console.log(news.slice(2,5))
   return (
     <div className={styles['news']}>
-      {/* {news.map(()=>{
-        return <h2>ad</h2>
-      })} */}
       <div className={styles['news--left']}>
         <img
-            src={news[0].urlToImage}
+            src={news[0].urlToImage ? news[0].urlToImage : "https://thumbs.dreamstime.com/b/news-newspapers-folded-stacked-word-wooden-block-puzzle-dice-concept-newspaper-media-press-release-42301371.jpg"}
             width="100%"
         />
         <Link href={news[0].url}><h2>{news[0].title}</h2></Link>
@@ -26,7 +23,7 @@ export default function App ({news}: IAppProps) {
             return (
             <div className={styles['news__singleNews']}>
                 <img
-                    src={news[i+1].urlToImage}
+                   src={news[i+1].urlToImage ? news[i+1].urlToImage : "https://thumbs.dreamstime.com/b/news-newspapers-folded-stacked-word-wooden-block-puzzle-dice-concept-newspaper-media-press-release-42301371.jpg"}
                     width={450}
                 />
                 <Link href={news[i+1].url}><h2>{news[i+1].title.slice(0,48)}...</h2></Link> 

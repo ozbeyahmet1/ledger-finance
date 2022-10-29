@@ -88,13 +88,13 @@ export default function App () {
         const connection = await web3modal.connect();
         const provider = new ethers.providers.Web3Provider(connection);
         const signer = provider.getSigner();
-          const TaskContract = new ethers.Contract(
+          const TransactionsContract = new ethers.Contract(
             contractAddress,
             contractAbi,
             signer
         )
           
-        let transaction = await TaskContract.addTransaction(task.data);
+        let transaction = await TransactionsContract.addTransaction(task.data);
         ClearTxnInLocal();
         SetStatue("waiting")
         const txn = await transaction.wait();
@@ -114,12 +114,12 @@ export default function App () {
       const connection = await web3modal.connect();
       const provider = new ethers.providers.Web3Provider(connection);
       const signer = provider.getSigner();
-        const TaskContract = new ethers.Contract(
+        const TransactionsContract = new ethers.Contract(
           contractAddress,
           contractAbi,
           signer
         )
-        let allTasks = await TaskContract.fetchMyTransactions();
+        let allTasks = await TransactionsContract.fetchMyTransactions();
         setTasks(allTasks);
     } catch(error) {
       console.log(error);
