@@ -86,7 +86,7 @@ export default function App () {
         'data': JSON.stringify(transactions),
       };
       try {
-        if (address) {
+        if (address && transactions.length!==0) {
           const web3modal = new Web3Modal();
           const connection = await web3modal.connect();
           const provider = new ethers.providers.Web3Provider(connection);
@@ -105,7 +105,6 @@ export default function App () {
           SetStatue("completed")
         }
         
-      
       } catch(error) {
         console.log("Error in AddTxnToBlockchain Function", error);
       }

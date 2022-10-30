@@ -80,7 +80,7 @@ export default function App () {
       };
      
       try {
-        if (address) {
+        if (address && assets.length!==0) {
           const web3modal = new Web3Modal();
           const connection = await web3modal.connect();
           const provider = new ethers.providers.Web3Provider(connection);
