@@ -1,6 +1,6 @@
 # Ledger | Financial Dashboard Dapp
 
-Ledger Financial Fashboard project is a blockchain based personal finance application.Made with NextJS, Typescript, Solidity,Ethers.js and Hardhat. This project includes:
+Ledger Financial Dashboard project is a blockchain based personal financial management application. Made with NextJS, Typescript, Solidity,Ethers.js and Hardhat. This project includes:
 
 -Sign In With Ethereum (SIWE)
 
