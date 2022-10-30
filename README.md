@@ -1,8 +1,14 @@
 # Ledger | Financial Dashboard Dapp
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, and a script that deploys that contract.
+Ledger Financial Fashboard project is a blockchain based personal finance application.Made with NextJS, Typescript, Solidity,Ethers.js and Hardhat. This project includes:
 
-Try running some of the following tasks:
+-Sign In With Ethereum (SIWE)
+
+-Server Side Authentication
+
+-Smart Contract / Front End Integration
+
+-Server Side Rendering
 
 ## Build
 
