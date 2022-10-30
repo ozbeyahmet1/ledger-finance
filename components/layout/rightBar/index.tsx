@@ -9,12 +9,14 @@ import { ethers } from 'ethers';
 import Link from 'next/link';
 import { TransactionInterface } from '../../../interfaces/transaction.interface';
 import { useAccount } from 'wagmi';
+import { useSession } from 'next-auth/react';
 
 export default function RightBar() {
 
   const current = new Date();
   const [tasks,setTasks]=React.useState<any[]>([])
   const { address } = useAccount()
+  const { data: session, status } = useSession()
   const getAllTransactions = async() => {
     try {
       if (address) {
@@ -66,10 +68,10 @@ export default function RightBar() {
       </div>
       <div>
         <h3 className={styles['rightBar__headline']}>Transactions</h3>
-          {tasks && concatedJsonStrings.slice(0,4).map((element:TransactionInterface,id:number)=>{
+          {(tasks && address && session) && concatedJsonStrings.slice(0,4).map((element:TransactionInterface,id:number)=>{
             return <HomepageTxnCard transaction={element}/> })}
 
-          {concatedJsonStrings.length==0 && 
+          {(concatedJsonStrings.length==0 || !address || !session) && 
             <>
               <HomepageTxnCard 
                 transaction={{headline:"How it looks?",date:current,value:500,category:"Clothing",type:"income",description:""}}/> 
