@@ -8,25 +8,28 @@ import Person2OutlinedIcon from '@mui/icons-material/Person2Outlined';
 import { ethers } from 'ethers';
 import Link from 'next/link';
 import { TransactionInterface } from '../../../interfaces/transaction.interface';
+import { useAccount } from 'wagmi';
 
 export default function RightBar() {
 
   const current = new Date();
   const [tasks,setTasks]=React.useState<any[]>([])
-
+  const { address } = useAccount()
   const getAllTransactions = async() => {
-    try {  
-      const web3modal = new Web3Modal();
-      const connection = await web3modal.connect();
-      const provider = new ethers.providers.Web3Provider(connection);
-      const signer = provider.getSigner();
-        const TaskContract = new ethers.Contract(
-          contractAddress,
-          contractAbi,
-          signer
-        )
-        let allTasks = await TaskContract.fetchMyTransactions();
-        setTasks(allTasks);
+    try {
+      if (address) {
+        const web3modal = new Web3Modal();
+        const connection = await web3modal.connect();
+        const provider = new ethers.providers.Web3Provider(connection);
+        const signer = provider.getSigner();
+          const TaskContract = new ethers.Contract(
+            contractAddress,
+            contractAbi,
+            signer
+          )
+          let allTasks = await TaskContract.fetchMyTransactions();
+          setTasks(allTasks);
+      }  
     } catch(error) {
       console.log(error);
     }
@@ -34,7 +37,7 @@ export default function RightBar() {
 
   React.useEffect(() => {
     getAllTransactions();
-  },[]);
+  },[address]);
 
   const jsonStrings = tasks.slice(0,4).map(item=>JSON?.parse(item.data))
 

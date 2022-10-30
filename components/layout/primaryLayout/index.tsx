@@ -6,7 +6,7 @@ import RightBar from '../rightBar'
 import { useAccount } from "wagmi"
 import { useRouter } from 'next/router'
 import styles from './primaryLayout.module.css'
-import { providers } from "ethers"
+
 
 export interface IPrimaryLayoutProps {
   children: React.ReactNode

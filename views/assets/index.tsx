@@ -9,8 +9,10 @@ import {Add,CloseOutlined,AccessTimeOutlined,ErrorOutline,Close} from '@mui/icon
 import { AssetInterface } from "../../interfaces/asset.interface";
 import { Tooltip } from '@mui/material';
 import Link from 'next/link';
+import { useAccount } from 'wagmi';
 
 export default function App () {
+    const { address } = useAccount()
     const [tasks,setTasks]=React.useState<any[]>([])
     const [asset, setAsset] = React.useState("");
     const [assets, setAssets] = React.useState<any[]>([]);
@@ -76,24 +78,27 @@ export default function App () {
       let task = {
         'data': JSON.stringify(assets),
       };
+     
       try {
-        const web3modal = new Web3Modal();
-        const connection = await web3modal.connect();
-        const provider = new ethers.providers.Web3Provider(connection);
-        const signer = provider.getSigner();
-          const AssetsContract = new ethers.Contract(
-            contractAddress,
-            contractAbi,
-            signer
-        )
-          
-        let asset = await AssetsContract.addAsset(task.data);
-        ClearAssetInLocal();
-        SetStatue("waiting")
-        const txn = await asset.wait();
-        setHash(txn.transactionHash);
-        SetStatue("completed")
-      
+        if (address) {
+          const web3modal = new Web3Modal();
+          const connection = await web3modal.connect();
+          const provider = new ethers.providers.Web3Provider(connection);
+          const signer = provider.getSigner();
+            const AssetsContract = new ethers.Contract(
+              contractAddress,
+              contractAbi,
+              signer
+          )
+            
+          let asset = await AssetsContract.addAsset(task.data);
+          ClearAssetInLocal();
+          SetStatue("waiting")
+          const txn = await asset.wait();
+          setHash(txn.transactionHash);
+          SetStatue("completed")
+        }
+
       } catch(error) {
         console.log("Error in AddAssetsToBlockchain Function", error);
       }
@@ -120,7 +125,7 @@ export default function App () {
     
   React.useEffect(() => {
     getAllAssets()
-  },[hash]);
+  },[hash,address]);
 
   const categories_options = [
       { value: "Cash"},

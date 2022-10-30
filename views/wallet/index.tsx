@@ -9,8 +9,10 @@ import {Add,CloseOutlined,AccessTimeOutlined,ErrorOutline,Close, ModeStandby, Wa
 import { TransactionInterface } from "../../interfaces/transaction.interface";
 import { Tooltip } from '@mui/material';
 import Link from 'next/link';
+import { useAccount } from 'wagmi';
 
 export default function App () {
+    const { address } = useAccount()
     const [tasks,setTasks]=React.useState<any[]>([])
     const [transaction, setTransaction] = React.useState("");
     const [transactions, setTransactions] = React.useState<any[]>([]);
@@ -84,22 +86,25 @@ export default function App () {
         'data': JSON.stringify(transactions),
       };
       try {
-        const web3modal = new Web3Modal();
-        const connection = await web3modal.connect();
-        const provider = new ethers.providers.Web3Provider(connection);
-        const signer = provider.getSigner();
-          const TransactionsContract = new ethers.Contract(
-            contractAddress,
-            contractAbi,
-            signer
-        )
-          
-        let transaction = await TransactionsContract.addTransaction(task.data);
-        ClearTxnInLocal();
-        SetStatue("waiting")
-        const txn = await transaction.wait();
-        setHash(txn.transactionHash);
-        SetStatue("completed")
+        if (address) {
+          const web3modal = new Web3Modal();
+          const connection = await web3modal.connect();
+          const provider = new ethers.providers.Web3Provider(connection);
+          const signer = provider.getSigner();
+            const TransactionsContract = new ethers.Contract(
+              contractAddress,
+              contractAbi,
+              signer
+          )
+            
+          let transaction = await TransactionsContract.addTransaction(task.data);
+          ClearTxnInLocal();
+          SetStatue("waiting")
+          const txn = await transaction.wait();
+          setHash(txn.transactionHash);
+          SetStatue("completed")
+        }
+        
       
       } catch(error) {
         console.log("Error in AddTxnToBlockchain Function", error);
@@ -128,7 +133,7 @@ export default function App () {
     
   React.useEffect(() => {
     getAllTasks()
-  },[hash]);
+  },[hash,address]);
 
 
     const type_options = [
